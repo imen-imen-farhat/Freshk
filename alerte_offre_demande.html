@@ -1,500 +1,140 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Freshk Smart Management</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f3f8;
-            color: #29243b;
-        }
-
-        header {
-            background: #6741a5;
-            color: white;
-            padding: 25px 35px;
-        }
-
-        header h1 {
-            font-size: 27px;
-            margin-bottom: 8px;
-        }
-
-        header p {
-            color: #eee5fa;
-        }
-
-        main {
-            max-width: 1150px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-
-        h2 {
-            margin-bottom: 18px;
-            color: #493274;
-        }
-
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-            margin-bottom: 30px;
-        }
-
-        .card {
-            background: white;
-            padding: 22px;
-            border-radius: 12px;
-            box-shadow: 0 3px 12px #0000000d;
-        }
-
-        .card p {
-            color: #777;
-            margin-bottom: 12px;
-        }
-
-        .card h3 {
-            font-size: 27px;
-            color: #6741a5;
-        }
-
-        .form-section {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            margin-top: 8px;
-            border: 1px solid #ddd;
-            border-radius: 7px;
-        }
-
-        label {
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        button {
-            background: #6741a5;
-            color: white;
-            border: none;
-            padding: 12px 22px;
-            border-radius: 7px;
-            cursor: pointer;
-            margin-top: 18px;
-            font-size: 15px;
-        }
-
-        button:hover {
-            background: #503080;
-        }
-
-        .table-section {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 650px;
-        }
-
-        th, td {
-            padding: 15px 12px;
-            text-align: center;
-            border-bottom: 1px solid #eee;
-        }
-
-        th {
-            background: #f0eafa;
-            color: #503080;
-        }
-
-        .status {
-            padding: 7px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            display: inline-block;
-        }
-
-        .surplus {
-            background: #fff0d9;
-            color: #b36a00;
-        }
-
-        .deficit {
-            background: #ffe3e3;
-            color: #c0392b;
-        }
-
-        .balanced {
-            background: #ddf5e6;
-            color: #21834b;
-        }
-
-        .recommendations {
-            margin-top: 30px;
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-        }
-
-        .recommendation {
-            padding: 16px;
-            margin-bottom: 12px;
-            border-left: 5px solid #6741a5;
-            background: #f8f6fb;
-            border-radius: 5px;
-        }
-
-        .recommendation strong {
-            display: block;
-            margin-bottom: 7px;
-        }
-
-        footer {
-            text-align: center;
-            padding: 25px;
-            color: #777;
-        }
-
-        @media (max-width: 700px) {
-            .cards, .form-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Freshk - Analyse du marché</title>
+<style>
+  :root { --bg:#ffffff; --text:#111827; --muted:#4b5563; --line:#d1d5db;
+          --green:#166534; --green-bg:#dcfce7; --red:#991b1b; --red-bg:#fee2e2;
+          --orange:#9a3412; --orange-bg:#ffedd5; --primary:#14532d; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:Arial, Helvetica, sans-serif; background:var(--bg); color:var(--text); }
+  header { background:var(--primary); color:#fff; padding:16px 24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
+  header h1 { margin:0; font-size:24px; }
+  nav a { color:#fff; margin-left:16px; text-decoration:none; font-weight:bold; }
+  main { max-width:1000px; margin:24px auto; padding:0 16px; }
+  h2 { margin:0 0 4px; }
+  p.sub { margin:0 0 20px; color:var(--muted); }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-bottom:24px; }
+  .card { border:2px solid var(--line); border-radius:8px; padding:16px; }
+  .card .n { font-size:32px; font-weight:bold; }
+  .table-wrap { overflow-x:auto; }
+  table { width:100%; border-collapse:collapse; margin-bottom:24px; }
+  th, td { border:1px solid var(--line); padding:10px; text-align:left; font-size:15px; }
+  th { background:#f3f4f6; }
+  .badge { padding:4px 10px; border-radius:12px; font-weight:bold; font-size:14px; white-space:nowrap; }
+  .Surstock { background:var(--orange-bg); color:var(--orange); }
+  .Pénurie { background:var(--red-bg); color:var(--red); }
+  .Équilibre { background:var(--green-bg); color:var(--green); }
+  form { display:flex; flex-wrap:wrap; gap:8px; align-items:end; border:2px solid var(--line); border-radius:8px; padding:16px; }
+  label { display:flex; flex-direction:column; font-weight:bold; font-size:14px; gap:4px; }
+  input { padding:8px; border:2px solid var(--line); border-radius:6px; font-size:15px; }
+  button { background:var(--primary); color:#fff; border:0; padding:10px 18px; border-radius:6px; font-size:15px; font-weight:bold; cursor:pointer; }
+  footer { text-align:center; color:var(--muted); padding:24px; font-size:14px; }
+</style>
 </head>
-
 <body>
-
 <header>
-    <h1>Freshk Smart Management</h1>
-    <p>Tableau de bord - Analyse de l'équilibre Offre-Demande</p>
+  <h1>Freshk</h1>
+  <nav><a href="#">Accueil</a><a href="#alertes">Alertes</a></nav>
 </header>
 
 <main>
+  <h2>Analyse du marché : offre et demande</h2>
+  <p class="sub">Écart = offre − demande. Alertes et recommandations générées automatiquement.</p>
 
-    <!-- INDICATEURS PRINCIPAUX -->
+  <div class="cards">
+    <div class="card"><div class="n" id="nb-surstock">0</div>Produits en surstock</div>
+    <div class="card"><div class="n" id="nb-penurie">0</div>Produits en pénurie</div>
+    <div class="card"><div class="n" id="nb-equilibre">0</div>Produits en équilibre</div>
+  </div>
 
-    <h2>Dashboard</h2>
+  <div class="table-wrap" id="alertes">
+    <table>
+      <thead>
+        <tr><th>Produit</th><th>Offre</th><th>Demande</th><th>Écart</th><th>Alerte</th><th>Recommandation</th></tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
 
-    <div class="cards">
-
-        <div class="card">
-            <p>Nombre de produits</p>
-            <h3 id="totalProducts">3</h3>
-        </div>
-
-        <div class="card">
-            <p>Quantité totale offerte</p>
-            <h3 id="totalOffer">1800 kg</h3>
-        </div>
-
-        <div class="card">
-            <p>Quantité totale demandée</p>
-            <h3 id="totalDemand">1700 kg</h3>
-        </div>
-
-    </div>
-
-    <!-- AJOUTER UN PRODUIT -->
-
-    <div class="form-section">
-
-        <h2>Ajouter un produit</h2>
-
-        <div class="form-grid">
-
-            <div>
-                <label>Nom du produit</label>
-                <input type="text" id="productName"
-                       placeholder="Exemple : Carottes">
-            </div>
-
-            <div>
-                <label>Quantité offerte (kg)</label>
-                <input type="number" id="offer"
-                       min="0" placeholder="Quantité offerte">
-            </div>
-
-            <div>
-                <label>Quantité demandée (kg)</label>
-                <input type="number" id="demand"
-                       min="0" placeholder="Quantité demandée">
-            </div>
-
-        </div>
-
-        <button onclick="addProduct()">
-            Ajouter et analyser
-        </button>
-
-    </div>
-
-    <!-- TABLEAU DES PRODUITS -->
-
-    <div class="table-section">
-
-        <h2>Analyse des produits</h2>
-
-        <table>
-
-            <thead>
-                <tr>
-                    <th>Produit</th>
-                    <th>Offre (kg)</th>
-                    <th>Demande (kg)</th>
-                    <th>Solde (kg)</th>
-                    <th>Situation</th>
-                </tr>
-            </thead>
-
-            <tbody id="productTable">
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-    <!-- ALERTES ET RECOMMANDATIONS -->
-
-    <div class="recommendations">
-
-        <h2>Alertes et Recommandations</h2>
-
-        <div id="recommendationList">
-
-        </div>
-
-    </div>
-
+  <h3>Ajouter un produit</h3>
+  <form id="form">
+    <label>Produit <input id="produit" required></label>
+    <label>Offre <input id="offre" type="number" min="0" required></label>
+    <label>Demande <input id="demande" type="number" min="0" required></label>
+    <button type="submit">Analyser</button>
+  </form>
 </main>
 
-<footer>
-    Freshk Smart Management | Master Data Science
-    <br><br>
-    Projet de Génie Logiciel - 2026/2027
-</footer>
-
+<footer>Freshk - Sprint 3 : Analyse du marché (offre et demande)</footer>
 
 <script>
-
-    // Données initiales des produits
-
-    let products = [
-        {
-            name: "Tomates",
-            offer: 500,
-            demand: 700
-        },
-        {
-            name: "Pommes de terre",
-            offer: 900,
-            demand: 600
-        },
-        {
-            name: "Fraises",
-            offer: 400,
-            demand: 400
-        }
-    ];
-
-
-    // Analyser la situation d'un produit
-
-    function analyzeProduct(product) {
-
-        let balance = product.offer - product.demand;
-
-        let situation;
-        let recommendation;
-        let statusClass;
-
-        if (balance > 0) {
-
-            situation = "Surstockage";
-            statusClass = "surplus";
-
-            recommendation =
-                "L'offre dépasse la demande. " +
-                "Proposer une promotion, étudier une réduction du prix " +
-                "et limiter les prochains approvisionnements.";
-
-        }
-
-        else if (balance < 0) {
-
-            situation = "Déficit de l'offre";
-            statusClass = "deficit";
-
-            recommendation =
-                "La demande dépasse l'offre. " +
-                "Contacter les fournisseurs, augmenter les quantités " +
-                "disponibles et réévaluer le prix si nécessaire.";
-
-        }
-
-        else {
-
-            situation = "Marché équilibré";
-            statusClass = "balanced";
-
-            recommendation =
-                "L'offre est égale à la demande. " +
-                "Maintenir les prix et assurer un suivi régulier.";
-
-        }
-
-        return {
-            balance,
-            situation,
-            recommendation,
-            statusClass
-        };
-
+  // Même logique que alertes_marche.py
+  function analyserMarche(produit, offre, demande) {
+    const ecart = offre - demande;
+    let alerte, recommandation;
+    if (ecart > 0) {
+      alerte = "Surstock";
+      recommandation = "Réduire l'offre ou baisser le prix";
+    } else if (ecart < 0) {
+      alerte = "Pénurie";
+      recommandation = "Augmenter l'offre de " + Math.abs(ecart) + " unités";
+    } else {
+      alerte = "Équilibre";
+      recommandation = "Maintenir l'offre";
     }
+    return { produit, offre, demande, ecart, alerte, recommandation };
+  }
 
+  const produits = [
+    ["Tomates", 100, 160],
+    ["Pommes de terre", 200, 100],
+    ["Oranges", 150, 150]
+  ];
 
-    // Afficher les produits et les recommandations
+  function afficher() {
+    const tbody = document.getElementById("tbody");
+    tbody.innerHTML = "";
+    const compteur = { Surstock: 0, Pénurie: 0, Équilibre: 0 };
+    produits.forEach(([nom, offre, demande]) => {
+      const r = analyserMarche(nom, offre, demande);
+      compteur[r.alerte]++;
+      const tr = document.createElement("tr");
+      [r.produit, r.offre, r.demande, r.ecart].forEach(v => {
+        const td = document.createElement("td");
+        td.textContent = v;
+        tr.appendChild(td);
+      });
+      const tdAlerte = document.createElement("td");
+      const badge = document.createElement("span");
+      badge.className = "badge " + r.alerte;
+      badge.textContent = r.alerte;
+      tdAlerte.appendChild(badge);
+      tr.appendChild(tdAlerte);
+      const tdReco = document.createElement("td");
+      tdReco.textContent = r.recommandation;
+      tr.appendChild(tdReco);
+      tbody.appendChild(tr);
+    });
+    document.getElementById("nb-surstock").textContent = compteur.Surstock;
+    document.getElementById("nb-penurie").textContent = compteur.Pénurie;
+    document.getElementById("nb-equilibre").textContent = compteur.Équilibre;
+  }
 
-    function displayProducts() {
+  document.getElementById("form").addEventListener("submit", e => {
+    e.preventDefault();
+    produits.push([
+      document.getElementById("produit").value,
+      Number(document.getElementById("offre").value),
+      Number(document.getElementById("demande").value)
+    ]);
+    e.target.reset();
+    afficher();
+  });
 
-        let table = document.getElementById("productTable");
-        let recommendations =
-            document.getElementById("recommendationList");
-
-        table.innerHTML = "";
-        recommendations.innerHTML = "";
-
-        let totalOffer = 0;
-        let totalDemand = 0;
-
-        products.forEach(function(product) {
-
-            let result = analyzeProduct(product);
-
-            totalOffer += product.offer;
-            totalDemand += product.demand;
-
-            // Ajouter une ligne dans le tableau
-
-            table.innerHTML += `
-                <tr>
-                    <td>${product.name}</td>
-                    <td>${product.offer}</td>
-                    <td>${product.demand}</td>
-                    <td>${result.balance > 0 ? "+" : ""}${result.balance}</td>
-                    <td>
-                        <span class="status ${result.statusClass}">
-                            ${result.situation}
-                        </span>
-                    </td>
-                </tr>
-            `;
-
-            // Ajouter une recommandation
-
-            recommendations.innerHTML += `
-                <div class="recommendation">
-                    <strong>${product.name} : ${result.situation}</strong>
-                    ${result.recommendation}
-                </div>
-            `;
-
-        });
-
-
-        // Mettre à jour les indicateurs
-
-        document.getElementById("totalProducts").textContent =
-            products.length;
-
-        document.getElementById("totalOffer").textContent =
-            totalOffer + " kg";
-
-        document.getElementById("totalDemand").textContent =
-            totalDemand + " kg";
-
-    }
-
-
-    // Ajouter un nouveau produit
-
-    function addProduct() {
-
-        let name = document.getElementById("productName").value.trim();
-
-        let offer = document.getElementById("offer").value;
-
-        let demand = document.getElementById("demand").value;
-
-        if (name === "" || offer === "" || demand === "") {
-
-            alert("Veuillez remplir tous les champs.");
-
-            return;
-
-        }
-
-        offer = Number(offer);
-        demand = Number(demand);
-
-        if (!Number.isFinite(offer) || !Number.isFinite(demand)
-            || offer < 0 || demand < 0) {
-
-            alert("Veuillez saisir des quantités valides.");
-
-            return;
-
-        }
-
-        products.push({
-            name: name,
-            offer: offer,
-            demand: demand
-        });
-
-        document.getElementById("productName").value = "";
-        document.getElementById("offer").value = "";
-        document.getElementById("demand").value = "";
-
-        displayProducts();
-
-    }
-
-
-    // Exécution initiale
-
-    displayProducts();
-
+  afficher();
 </script>
-
 </body>
 </html>
