@@ -1,335 +1,524 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Freshk | Système de Pilotage Offre & Demande</title>
-    <style>
-        :root {
-            --primary: #16a34a;
-            --primary-dark: #15803d;
-            --primary-light: #dcfce7;
-            --bg: #f8fafc;
-            --card: #ffffff;
-            --text: #0f172a;
-            --muted: #475569;
-            --border: #e2e8f0;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Freshk - Dashboard</title>
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
 
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-        }
+body {
+    background: #f4f7f5;
+    color: #263b32;
+}
 
-        /* Barre de navigation */
-        nav {
-            background: var(--card);
-            border-bottom: 1px solid var(--border);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+header {
+    background: #174d3b;
+    color: white;
+    padding: 22px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        .logo {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: var(--primary-dark);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+.logo {
+    font-size: 27px;
+    font-weight: bold;
+}
 
-        .logo span {
-            background: var(--primary-light);
-            color: var(--primary-dark);
-            font-size: 0.75rem;
-            padding: 0.2rem 0.6rem;
-            border-radius: 999px;
-            font-weight: 700;
-        }
+.logo span {
+    color: #9ce0a9;
+}
 
-        .nav-btn {
-            background-color: var(--primary);
-            color: white;
-            text-decoration: none;
-            padding: 0.6rem 1.25rem;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: background 0.2s;
-        }
+header p {
+    font-size: 13px;
+    color: #d8eee0;
+}
 
-        .nav-btn:hover {
-            background-color: var(--primary-dark);
-        }
+.container {
+    max-width: 1250px;
+    margin: 35px auto;
+    padding: 0 25px;
+}
 
-        /* Section Hero (Bannière principale) */
-        .hero {
-            max-width: 1100px;
-            margin: 3.5rem auto;
-            padding: 0 2rem;
-            text-align: center;
-        }
+.welcome {
+    margin-bottom: 28px;
+}
 
-        .badge-top {
-            display: inline-block;
-            background-color: var(--primary-light);
-            color: var(--primary-dark);
-            padding: 0.35rem 1rem;
-            border-radius: 999px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            margin-bottom: 1.25rem;
-        }
+.welcome h1 {
+    font-size: 27px;
+    margin-bottom: 8px;
+}
 
-        .hero h1 {
-            font-size: 2.6rem;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 1.25rem;
-            color: var(--text);
-        }
+.welcome p {
+    color: #718078;
+}
 
-        .hero h1 span {
-            color: var(--primary);
-        }
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 30px;
+}
 
-        .hero p {
-            max-width: 720px;
-            margin: 0 auto 2rem auto;
-            font-size: 1.1rem;
-            color: var(--muted);
-        }
+.stat-card {
+    background: white;
+    padding: 23px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px #00000008;
+    border-left: 4px solid #24845b;
+}
 
-        .cta-group {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
+.stat-card p {
+    color: #78847e;
+    font-size: 13px;
+    margin-bottom: 13px;
+}
 
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
-            text-decoration: none;
-            padding: 0.9rem 1.8rem;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 1rem;
-            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
-            transition: transform 0.2s, background 0.2s;
-        }
+.stat-card h2 {
+    font-size: 27px;
+    color: #174d3b;
+}
 
-        .btn-primary:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-        }
+.unit {
+    font-size: 13px;
+    color: #829087;
+}
 
-        .btn-secondary {
-            background-color: var(--card);
-            color: var(--text);
-            text-decoration: none;
-            padding: 0.9rem 1.8rem;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 1rem;
-            border: 1px solid var(--border);
-            transition: background 0.2s;
-        }
+.section {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 3px 12px #00000008;
+}
 
-        .btn-secondary:hover {
-            background-color: #f1f5f9;
-        }
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+}
 
-        /* Section Fonctionnement (3 étapes) */
-        .section {
-            max-width: 1100px;
-            margin: 4rem auto;
-            padding: 0 2rem;
-        }
+.section h2 {
+    font-size: 19px;
+}
 
-        .section-title {
-            text-align: center;
-            margin-bottom: 2.5rem;
-        }
+.search {
+    padding: 11px 15px;
+    border: 1px solid #dce5df;
+    border-radius: 8px;
+    width: 240px;
+    outline: none;
+}
 
-        .section-title h2 {
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
-        }
+.search:focus, input:focus {
+    border-color: #24845b;
+}
 
-        .section-title p {
-            color: var(--muted);
-        }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 750px;
+}
 
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-            gap: 1.5rem;
-        }
+.table-wrapper {
+    overflow-x: auto;
+}
 
-        .card {
-            background: var(--card);
-            padding: 1.75rem;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-        }
+th {
+    background: #edf5ef;
+    color: #315c47;
+    padding: 15px;
+    text-align: left;
+    font-size: 13px;
+}
 
-        .card-icon {
-            width: 44px;
-            height: 44px;
-            background: var(--primary-light);
-            color: var(--primary-dark);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-        }
+td {
+    padding: 16px 15px;
+    border-bottom: 1px solid #edf0ed;
+    font-size: 13px;
+}
 
-        .card h3 {
-            font-size: 1.15rem;
-            margin-bottom: 0.6rem;
-        }
+.product {
+    font-weight: bold;
+}
 
-        .card p {
-            color: var(--muted);
-            font-size: 0.95rem;
-        }
+.status {
+    padding: 7px 11px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: bold;
+    display: inline-block;
+}
 
-        /* Section Les 3 États du Marché */
-        .states-box {
-            background: var(--card);
-            border-radius: 14px;
-            padding: 2rem;
-            border: 1px solid var(--border);
-            margin-top: 2rem;
-        }
+.deficit {
+    background: #fde8e7;
+    color: #c43c35;
+}
 
-        .state-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0;
-            border-bottom: 1px solid var(--border);
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
+.surplus {
+    background: #fff2d9;
+    color: #a76a13;
+}
 
-        .state-item:last-child {
-            border-bottom: none;
-        }
+.balance {
+    background: #e1f4e7;
+    color: #23804a;
+}
 
-        .pill {
-            padding: 0.35rem 0.9rem;
-            border-radius: 999px;
-            font-weight: 700;
-            font-size: 0.85rem;
-        }
+.recommendations {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
 
-        .pill-surplus { background: #ffedd5; color: #c2410c; }
-        .pill-equilibre { background: #dcfce7; color: #15803d; }
-        .pill-deficit { background: #fee2e2; color: #b91c1c; }
+.recommendation {
+    padding: 17px;
+    background: #f8faf8;
+    border-radius: 9px;
+    border-left: 4px solid #24845b;
+}
 
-        /* Pied de page */
-        footer {
-            text-align: center;
-            padding: 2rem;
-            margin-top: 4rem;
-            border-top: 1px solid var(--border);
-            color: var(--muted);
-            font-size: 0.9rem;
-        }
+.recommendation h3 {
+    font-size: 15px;
+    margin-bottom: 9px;
+}
 
-        @media (max-width: 640px) {
-            .hero h1 { font-size: 2rem; }
-        }
-    </style>
+.recommendation p {
+    font-size: 13px;
+    color: #68766e;
+    line-height: 1.6;
+}
+
+.rec-deficit {
+    border-left-color: #d9534f;
+}
+
+.rec-surplus {
+    border-left-color: #e5a33b;
+}
+
+.rec-balance {
+    border-left-color: #329d60;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #87948c;
+    font-size: 12px;
+}
+
+@media(max-width: 850px) {
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width: 550px) {
+    header {
+        padding: 20px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .recommendations {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        padding: 0 12px;
+    }
+}
+</style>
 </head>
+
 <body>
 
-    <!-- Navigation -->
-    <nav>
-        <div class="logo">
-            Freshk <span>AgriTech BI</span>
-        </div>
-        <a href="dashboard.html" class="nav-btn">Ouvrir le Tableau de Bord →</a>
-    </nav>
+<header>
+    <div class="logo">Fresh<span>k.</span></div>
+    <p>Tableau de bord | Gestion Offre & Demande</p>
+</header>
 
-    <!-- Bannière Principale -->
-    <section class="hero">
-        <div class="badge-top">Module d'Aide à la Décision • Clôture Journalière</div>
-        <h1>Pilotez l'équilibre <span>Offre & Demande</span> de chaque produit</h1>
-        <p>
-            Une solution dédiée au responsable des opérations Freshk pour analyser le bilan de fin de journée par produit, détecter instantanément les écarts en kilogrammes et générer les actions prioritaires pour les prochaines 24 heures.
-        </p>
-        <div class="cta-group">
-            <a href="dashboard.html" class="btn-primary">Accéder au Bilan Journalier</a>
-            <a href="#fonctionnement" class="btn-secondary">Découvrir le fonctionnement</a>
-        </div>
-    </section>
+<div class="container">
 
-    <!-- Étapes du processus -->
-    <section class="section" id="fonctionnement">
-        <div class="section-title">
-            <h2>Comment fonctionne le système ?</h2>
-            <p>Un processus en trois étapes simples à la fin de chaque journée</p>
+    <div class="welcome">
+        <h1>Tableau de bord</h1>
+        <p>Analyse globale de l'offre et de la demande par produit.</p>
+    </div>
+
+    <!-- INDICATEURS GENERAUX -->
+
+    <div class="stats">
+
+        <div class="stat-card">
+            <p>Offre totale</p>
+            <h2 id="totalOffer">0</h2>
+            <span class="unit">Kg disponibles</span>
         </div>
 
-        <div class="grid-3">
-            <div class="card">
-                <div class="card-icon">1</div>
-                <h3>Agrégation Journalière</h3>
-                <p>
-                    Centralisation de l'<strong>Offre Totale (kg)</strong> collectée auprès des agriculteurs et de la <strong>Demande Totale (kg)</strong> commandée par les clients B2B sur la journée.
-                </p>
-            </div>
-
-            <div class="card">
-                <div class="card-icon">2</div>
-                <h3>Calcul de l'Écart Net</h3>
-                <p>
-                    Évaluation directe sans marge d'ambiguïté : <strong>Écart = Offre Totale − Demande Totale</strong>. Le système classe automatiquement chaque produit selon son état réel.
-                </p>
-            </div>
-
-            <div class="card">
-                <div class="card-icon">3</div>
-                <h3>Plan d'Action 24h</h3>
-                <p>
-                    Génération immédiate des décisions tarifaires et logistiques (promo flash, sourcing d'urgence ou maintien des prix) à exécuter dès le lendemain matin.
-                </p>
-            </div>
+        <div class="stat-card">
+            <p>Demande totale</p>
+            <h2 id="totalDemand">0</h2>
+            <span class="unit">Kg demandés</span>
         </div>
 
-        <!-- Résumé des 3 règles métiers -->
-        <div class="states-box">
-            <h3 style="margin-bottom: 1rem;">Règles de décision intégrées pour les prochaines 24h</h3>
-            
-            <div class="state-item">
-                <div>
-                    <span class="pill pill-surplus">Écart > 0 kg (Surplus)</span>
-                </div>
-                <div style="flex: 1; min-width: 250px; color: var(--muted);">
-                    <strong>Action 24h :</strong> Baisser le prix dynamique, lancer une offre flash Horeca pour écouler l'excédent et réduire la collecte du lendemain.
-                </div>
-            </div>
+        <div class="stat-card">
+            <p>Écart global</p>
+            <h2 id="totalGap">0</h2>
+            <span class="unit">Kg (Offre - Demande)</span>
+        </div>
 
-            <div class="state-item">
-                <div>
-                    <span class="pill pill-equilibre">Écart = 0 kg (Équilibre)</span>
+        <div class="stat-card">
+            <p>Produits en déficit</p>
+            <h2 id="deficitCount">0</h2>
+            <span class="unit">Produits à surveiller</span>
+        </div>
+
+    </div>
+
+    <!-- ANALYSE PAR PRODUIT -->
+
+    <div class="section">
+
+        <div class="section-header">
+            <h2>Analyse de l'offre et de la demande</h2>
+
+            <input
+                type="text"
+                id="search"
+                class="search"
+                placeholder="Rechercher un produit..."
+                oninput="displayProducts()">
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Produit</th>
+                        <th>Offre (Kg)</th>
+                        <th>Demande (Kg)</th>
+                        <th>Écart (Kg)</th>
+                        <th>Situation</th>
+                    </tr>
+                </thead>
+
+                <tbody id="productTable"></tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- RECOMMANDATIONS -->
+
+    <div class="section">
+
+        <div class="section-header">
+            <h2>Recommandations de gestion</h2>
+            <span class="unit">Analyse automatique par produit</span>
+        </div>
+
+        <div class="recommendations" id="recommendations"></div>
+
+    </div>
+
+</div>
+
+<footer>
+    Freshk © 2026 - Gestion intelligente de l'offre et de la demande
+</footer>
+
+<script>
+
+// DONNEES DES PRODUITS (EXEMPLE)
+
+const products = [
+    {name: "Tomates", offer: 100, demand: 150},
+    {name: "Fraises", offer: 200, demand: 120},
+    {name: "Pommes", offer: 80, demand: 80},
+    {name: "Oranges", offer: 90, demand: 140},
+    {name: "Pommes de terre", offer: 250, demand: 180},
+    {name: "Carottes", offer: 110, demand: 100}
+];
+
+// CALCUL DE LA SITUATION
+
+function getSituation(product) {
+
+    const gap = product.offer - product.demand;
+
+    if (gap < 0) {
+        return "Déficit";
+    }
+
+    if (gap > 0) {
+        return "Excédent";
+    }
+
+    return "Équilibre";
+}
+
+// RECOMMANDATIONS AUTOMATIQUES
+
+function getRecommendation(product) {
+
+    const gap = product.offer - product.demand;
+
+    if (gap < 0) {
+        return {
+            title: "⚠ " + product.name + " : Déficit",
+            message:
+            "La demande dépasse l'offre de " +
+            Math.abs(gap) +
+            " Kg. Recommandation : augmenter l'approvisionnement auprès des fournisseurs.",
+            class: "rec-deficit"
+        };
+    }
+
+    if (gap > 0) {
+        return {
+            title: "⚡ " + product.name + " : Excédent",
+            message:
+            "L'offre dépasse la demande de " +
+            gap +
+            " Kg. Recommandation : réduire les prochaines commandes et surveiller le risque de gaspillage.",
+            class: "rec-surplus"
+        };
+    }
+
+    return {
+        title: "✓ " + product.name + " : Équilibre",
+        message:
+        "L'offre correspond à la demande. Recommandation : maintenir le niveau actuel d'approvisionnement.",
+        class: "rec-balance"
+    };
+}
+
+// AFFICHAGE DES INDICATEURS
+
+function updateStats() {
+
+    const totalOffer = products.reduce(
+        (sum, p) => sum + p.offer, 0
+    );
+
+    const totalDemand = products.reduce(
+        (sum, p) => sum + p.demand, 0
+    );
+
+    const gap = totalOffer - totalDemand;
+
+    const deficits = products.filter(
+        p => getSituation(p) === "Déficit"
+    ).length;
+
+    document.getElementById("totalOffer").textContent =
+        totalOffer.toLocaleString("fr-FR");
+
+    document.getElementById("totalDemand").textContent =
+        totalDemand.toLocaleString("fr-FR");
+
+    document.getElementById("totalGap").textContent =
+        (gap > 0 ? "+" : "") + gap.toLocaleString("fr-FR");
+
+    document.getElementById("deficitCount").textContent =
+        deficits;
+}
+
+// AFFICHAGE DU TABLEAU
+
+function displayProducts() {
+
+    const search = document.getElementById("search")
+        .value.toLowerCase();
+
+    const filtered = products.filter(p =>
+        p.name.toLowerCase().includes(search)
+    );
+
+    const table = document.getElementById("productTable");
+
+    table.innerHTML = "";
+
+    filtered.forEach(product => {
+
+        const gap = product.offer - product.demand;
+        const situation = getSituation(product);
+
+        let className = "balance";
+
+        if (situation === "Déficit") {
+            className = "deficit";
+        } else if (situation === "Excédent") {
+            className = "surplus";
+        }
+
+        table.innerHTML += `
+            <tr>
+                <td class="product">${product.name}</td>
+                <td>${product.offer}</td>
+                <td>${product.demand}</td>
+                <td>${gap > 0 ? "+" : ""}${gap}</td>
+                <td>
+                    <span class="status ${className}">
+                        ${situation}
+                    </span>
+                </td>
+            </tr>
+        `;
+    });
+
+    if (filtered.length === 0) {
+        table.innerHTML = `
+            <tr>
+                <td colspan="5">Aucun produit trouvé.</td>
+            </tr>
+        `;
+    }
+}
+
+// AFFICHAGE DES RECOMMANDATIONS
+
+function displayRecommendations() {
+
+    const container =
+        document.getElementById("recommendations");
+
+    container.innerHTML = "";
+
+    products.forEach(product => {
+
+        const rec = getRecommendation(product);
+
+        container.innerHTML += `
+            <div class="recommendation ${rec.class}">
+                <h3>${rec.title}</h3>
+                <p>${rec.message}</p>
+            </div>
+        `;
+    });
+}
+
+// INITIALISATION
+
+updateStats();
+displayProducts();
+displayRecommendations();
+
+</script>
+
+</body>
+</html>
