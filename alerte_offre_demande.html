@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Freshk – Alerte équilibre offre/demande</title>
+<style>
+  :root { --bg:#fbfdf9; --ink:#11261a; --muted:#46594d; --green:#0f3d24; --line:#11261a; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:17px/1.5 "Segoe UI", Arial, sans-serif; }
+  .wrap { max-width:1100px; margin:0 auto; padding:32px 24px 64px; }
+  h1 { font:700 34px Georgia, serif; color:var(--green); margin:0 0 4px; }
+  h2 { font:700 22px Georgia, serif; color:var(--green); margin:40px 0 12px; }
+  .sub { color:var(--muted); margin:0 0 24px; }
+  .card { background:#fff; border:2px solid var(--line); border-radius:12px; padding:20px; }
+  .seuils { display:flex; gap:24px; flex-wrap:wrap; }
+  label { display:flex; flex-direction:column; font-weight:600; gap:4px; }
+  input { font:inherit; padding:8px 10px; border:2px solid var(--line); border-radius:6px; width:140px; }
+  table { width:100%; border-collapse:collapse; background:#fff; border:2px solid var(--line); }
+  th, td { text-align:left; padding:10px 12px; border-bottom:1px solid #cfd9d2; vertical-align:middle; }
+  th { background:var(--green); color:#fff; }
+  td input { width:100px; }
+  td input.nom { width:170px; }
+  .badge { display:inline-block; padding:4px 10px; border-radius:999px; font-weight:700; font-size:14px; border:2px solid; }
+  .PENURIE  { background:#fde8e8; color:#8a1111; border-color:#8a1111; }
+  .TENSION  { background:#fff1d6; color:#7a4300; border-color:#7a4300; }
+  .SURSTOCK { background:#e3edfb; color:#14407d; border-color:#14407d; }
+  .EQUILIBRE{ background:#e4f3e8; color:#0f5a2b; border-color:#0f5a2b; }
+  button { font:inherit; font-weight:700; padding:10px 18px; border-radius:8px; border:2px solid var(--green); background:var(--green); color:#fff; cursor:pointer; }
+  button:hover { background:#0a2a18; }
+  button.ghost { background:#fff; color:var(--green); }
+  :focus-visible { outline:3px solid #c2410c; outline-offset:2px; }
+  .scroll { overflow-x:auto; }
+  .vide { padding:16px; font-weight:600; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Alerte équilibre offre/demande</h1>
+  <p class="sub">Freshk Market – ratio = quantités commandées (7 derniers jours) ÷ stock disponible.</p>
+
+  <h2>1. Seuils</h2>
+  <div class="card seuils">
+    <label>Pénurie (ratio ≥)<input id="sPenurie" type="number" step="0.05" value="1"></label>
+    <label>Tension (ratio ≥)<input id="sTension" type="number" step="0.05" value="0.8"></label>
+    <label>Surstock (ratio &lt;)<input id="sSurstock" type="number" step="0.05" value="0.2"></label>
+    <label>Marge de sécurité (%)<input id="marge" type="number" step="5" value="20"></label>
+  </div>
+
+  <h2>2. Données (modifiables)</h2>
+  <div class="scroll">
+    <table id="donnees">
+      <thead><tr><th>Produit</th><th>Stock (kg)</th><th>Demande 7 jours (kg)</th><th></th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <p><button id="ajouter" class="ghost" type="button">Ajouter un produit</button></p>
+
+  <h2>3. Alertes et recommandations</h2>
+  <div class="scroll">
+    <table id="alertes">
+      <thead><tr><th>Produit</th><th>Ratio</th><th>Alerte</th><th>Recommandation</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+const exemple = [
+  { nom: "Tomates", stock: 200, demande: 270 },
+  { nom: "Pommes de terre", stock: 1000, demande: 100 },
+  { nom: "Oranges", stock: 500, demande: 100 },
+  { nom: "Piments", stock: 80, demande: 75 },
+  { nom: "Citrons", stock: 300, demande: 190 }
+];
+
+const $ = (id) => document.getElementById(id);
+const corps = document.querySelector("#donnees tbody");
+
+function ligneDonnees(p) {
+  const tr = document.createElement("tr");
+  tr.innerHTML =
+    '<td><input class="nom" type="text" aria-label="Produit"></td>' +
+    '<td><input type="number" min="0" aria-label="Stock"></td>' +
+    '<td><input type="number" min="0" aria-label="Demande sur 7 jours"></td>' +
+    '<td><button type="button" class="ghost">Supprimer</button></td>';
+  const [nom, stock, demande] = tr.querySelectorAll("input");
+  nom.value = p.nom; stock.value = p.stock; demande.value = p.demande;
+  tr.querySelectorAll("input").forEach((i) => i.addEventListener("input", calculer));
+  tr.querySelector("button").addEventListener("click", () => { tr.remove(); calculer(); });
+  corps.appendChild(tr);
+}
+
+function classer(ratio, s) {
+  if (ratio >= s.penurie) return "PENURIE";
+  if (ratio >= s.tension) return "TENSION";
+  if (ratio < s.surstock) return "SURSTOCK";
+  return "EQUILIBRE";
+}
+
+function recommander(type, p, marge) {
+  if (type === "PENURIE" || type === "TENSION") {
+    const aCommander = Math.max(0, Math.round(p.demande * (1 + marge) - p.stock));
+    return "Réapprovisionner environ " + aCommander + " kg et envisager une hausse de prix de 5 % à 10 %.";
+  }
+  if (type === "SURSTOCK") {
+    return "Lancer une promotion (-10 % à -20 %), notifier les acheteurs et réduire le prochain approvisionnement.";
+  }
+  return "Aucune action.";
+}
+
+function calculer() {
+  const s = {
+    penurie: parseFloat($("sPenurie").value),
+    tension: parseFloat($("sTension").value),
+    surstock: parseFloat($("sSurstock").value)
+  };
+  const marge = (parseFloat($("marge").value) || 0) / 100;
+  const sortie = document.querySelector("#alertes tbody");
+  sortie.innerHTML = "";
+  const lignes = [];
+
+  corps.querySelectorAll("tr").forEach((tr) => {
+    const [n, st, d] = tr.querySelectorAll("input");
+    const p = { nom: n.value || "Sans nom", stock: parseFloat(st.value) || 0, demande: parseFloat(d.value) || 0 };
+    let ratio = p.stock > 0 ? p.demande / p.stock : (p.demande > 0 ? Infinity : 0);
+    lignes.push({ p, ratio, type: classer(ratio, s) });
+  });
+
+  lignes.sort((a, b) => b.ratio - a.ratio);
+  const alertes = lignes.filter((l) => l.type !== "EQUILIBRE");
+
+  if (alertes.length === 0) {
+    sortie.innerHTML = '<tr><td colspan="4" class="vide">Aucune alerte : l’offre et la demande sont équilibrées.</td></tr>';
+    return;
+  }
+  alertes.forEach(({ p, ratio, type }) => {
+    const tr = document.createElement("tr");
+    const r = ratio === Infinity ? "∞" : ratio.toFixed(2);
+    tr.innerHTML = "<td></td><td>" + r + '</td><td><span class="badge ' + type + '">' + type + "</span></td><td></td>";
+    tr.children[0].textContent = p.nom;
+    tr.children[3].textContent = recommander(type, p, marge);
+    sortie.appendChild(tr);
+  });
+}
+
+["sPenurie", "sTension", "sSurstock", "marge"].forEach((id) => $(id).addEventListener("input", calculer));
+$("ajouter").addEventListener("click", () => { ligneDonnees({ nom: "", stock: 0, demande: 0 }); calculer(); });
+exemple.forEach(ligneDonnees);
+calculer();
+</script>
+</body>
+</html>
