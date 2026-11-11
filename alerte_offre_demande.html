@@ -1,118 +1,500 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tableau de bord : équilibre du marché – Freshk</title>
-<style>
-  :root { --bg:#fbfdf9; --ink:#11261a; --muted:#46594d; --green:#0f3d24; }
-  * { box-sizing: border-box; }
-  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.5 "Segoe UI", Arial, sans-serif; }
-  .wrap { max-width:1280px; margin:0 auto; padding:40px 24px 64px; }
-  h1 { font:700 34px Georgia, serif; color:var(--green); margin:0 0 4px; }
-  .sub { color:var(--muted); margin:0 0 28px; }
-  .scroll { overflow-x:auto; }
-  table { width:100%; border-collapse:collapse; background:#fff; border:2px solid var(--ink); min-width:1000px; }
-  th, td { text-align:left; padding:12px 14px; border-bottom:1px solid #cfd9d2; vertical-align:middle; }
-  th { background:var(--green); color:#fff; white-space:nowrap; }
-  td.num, th.num { text-align:right; }
-  td input { font:inherit; padding:6px 8px; border:2px solid var(--ink); border-radius:6px; width:100px; text-align:right; }
-  td input.nom { width:160px; text-align:left; }
-  .badge { display:inline-block; padding:6px 12px; border-radius:6px; font-weight:700; font-size:14px; border:2px solid; }
-  .ROUGE  { background:#fde8e8; color:#8a1111; border-color:#c01818; }
-  .ORANGE { background:#fff1d6; color:#7a4300; border-color:#f08a00; }
-  .VERT   { background:#e4f3e8; color:#0f5a2b; border-color:#1f9d55; }
-  tr.r-ROUGE td:first-child  { border-left:8px solid #c01818; }
-  tr.r-ORANGE td:first-child { border-left:8px solid #f08a00; }
-  tr.r-VERT td:first-child   { border-left:8px solid #1f9d55; }
-  button { font:inherit; font-weight:700; padding:8px 16px; border-radius:8px; border:2px solid var(--green); background:#fff; color:var(--green); cursor:pointer; }
-  button:hover { background:#e6f1e8; }
-  button.add { background:var(--green); color:#fff; margin-top:20px; }
-  button.add:hover { background:#0a2a18; }
-  button.suppr { padding:4px 10px; font-size:14px; }
-  :focus-visible { outline:3px solid #c2410c; outline-offset:2px; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freshk Smart Management</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f3f8;
+            color: #29243b;
+        }
+
+        header {
+            background: #6741a5;
+            color: white;
+            padding: 25px 35px;
+        }
+
+        header h1 {
+            font-size: 27px;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: #eee5fa;
+        }
+
+        main {
+            max-width: 1150px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        h2 {
+            margin-bottom: 18px;
+            color: #493274;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #0000000d;
+        }
+
+        .card p {
+            color: #777;
+            margin-bottom: 12px;
+        }
+
+        .card h3 {
+            font-size: 27px;
+            color: #6741a5;
+        }
+
+        .form-section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            border: 1px solid #ddd;
+            border-radius: 7px;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        button {
+            background: #6741a5;
+            color: white;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 7px;
+            cursor: pointer;
+            margin-top: 18px;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background: #503080;
+        }
+
+        .table-section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        th, td {
+            padding: 15px 12px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #f0eafa;
+            color: #503080;
+        }
+
+        .status {
+            padding: 7px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .surplus {
+            background: #fff0d9;
+            color: #b36a00;
+        }
+
+        .deficit {
+            background: #ffe3e3;
+            color: #c0392b;
+        }
+
+        .balanced {
+            background: #ddf5e6;
+            color: #21834b;
+        }
+
+        .recommendations {
+            margin-top: 30px;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        .recommendation {
+            padding: 16px;
+            margin-bottom: 12px;
+            border-left: 5px solid #6741a5;
+            background: #f8f6fb;
+            border-radius: 5px;
+        }
+
+        .recommendation strong {
+            display: block;
+            margin-bottom: 7px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #777;
+        }
+
+        @media (max-width: 700px) {
+            .cards, .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
+
 <body>
-<div class="wrap">
-  <h1>Tableau de bord : équilibre du marché</h1>
-  <p class="sub">Freshk Market – état de l’offre et de la demande par produit.</p>
-  <div class="scroll">
-    <table>
-      <thead>
-        <tr>
-          <th>Produit</th><th class="num">Offre (kg)</th><th class="num">Demande (kg)</th><th class="num">Écart (kg)</th>
-          <th>Situation</th><th>Risque</th><th>Recommandation</th><th></th>
-        </tr>
-      </thead>
-      <tbody id="corps"></tbody>
-    </table>
-  </div>
-  <button id="ajouter" class="add" type="button">Ajouter un produit</button>
-</div>
+
+<header>
+    <h1>Freshk Smart Management</h1>
+    <p>Tableau de bord - Analyse de l'équilibre Offre-Demande</p>
+</header>
+
+<main>
+
+    <!-- INDICATEURS PRINCIPAUX -->
+
+    <h2>Dashboard</h2>
+
+    <div class="cards">
+
+        <div class="card">
+            <p>Nombre de produits</p>
+            <h3 id="totalProducts">3</h3>
+        </div>
+
+        <div class="card">
+            <p>Quantité totale offerte</p>
+            <h3 id="totalOffer">1800 kg</h3>
+        </div>
+
+        <div class="card">
+            <p>Quantité totale demandée</p>
+            <h3 id="totalDemand">1700 kg</h3>
+        </div>
+
+    </div>
+
+    <!-- AJOUTER UN PRODUIT -->
+
+    <div class="form-section">
+
+        <h2>Ajouter un produit</h2>
+
+        <div class="form-grid">
+
+            <div>
+                <label>Nom du produit</label>
+                <input type="text" id="productName"
+                       placeholder="Exemple : Carottes">
+            </div>
+
+            <div>
+                <label>Quantité offerte (kg)</label>
+                <input type="number" id="offer"
+                       min="0" placeholder="Quantité offerte">
+            </div>
+
+            <div>
+                <label>Quantité demandée (kg)</label>
+                <input type="number" id="demand"
+                       min="0" placeholder="Quantité demandée">
+            </div>
+
+        </div>
+
+        <button onclick="addProduct()">
+            Ajouter et analyser
+        </button>
+
+    </div>
+
+    <!-- TABLEAU DES PRODUITS -->
+
+    <div class="table-section">
+
+        <h2>Analyse des produits</h2>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Offre (kg)</th>
+                    <th>Demande (kg)</th>
+                    <th>Solde (kg)</th>
+                    <th>Situation</th>
+                </tr>
+            </thead>
+
+            <tbody id="productTable">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- ALERTES ET RECOMMANDATIONS -->
+
+    <div class="recommendations">
+
+        <h2>Alertes et Recommandations</h2>
+
+        <div id="recommendationList">
+
+        </div>
+
+    </div>
+
+</main>
+
+<footer>
+    Freshk Smart Management | Master Data Science
+    <br><br>
+    Projet de Génie Logiciel - 2026/2027
+</footer>
+
 
 <script>
-const produits = [
-  { nom: "Tomates", offre: 200, demande: 270 },
-  { nom: "Pommes de terre", offre: 1000, demande: 100 },
-  { nom: "Oranges", offre: 400, demande: 400 }
-];
 
-function analyser(offre, demande) {
-  const ecart = offre - demande;
-  if (ecart < 0) {
-    return { couleur: "ROUGE", texte: "Déséquilibre : demande supérieure à l’offre",
-      risque: "Rupture de stock, ventes perdues, clients insatisfaits.",
-      reco: "Augmenter le stock (réapprovisionner) et/ou augmenter le prix pour éviter la rupture de stock." };
-  }
-  if (ecart > 0) {
-    return { couleur: "ORANGE", texte: "Déséquilibre : offre supérieure à la demande",
-      risque: "Surstock, produits périmés, perte financière.",
-      reco: "Baisser le prix ou lancer une promotion, et réduire le prochain approvisionnement pour éviter le surstock." };
-  }
-  return { couleur: "VERT", texte: "Équilibre : offre égale à la demande",
-    risque: "Risque faible.",
-    reco: "Maintenir cette situation : bien suivre le stock et la demande chaque jour, et garder les prix actuels." };
-}
+    // Données initiales des produits
 
-const corps = document.getElementById("corps");
+    let products = [
+        {
+            name: "Tomates",
+            offer: 500,
+            demand: 700
+        },
+        {
+            name: "Pommes de terre",
+            offer: 900,
+            demand: 600
+        },
+        {
+            name: "Fraises",
+            offer: 400,
+            demand: 400
+        }
+    ];
 
-function ajouterLigne(p) {
-  const tr = document.createElement("tr");
-  tr.innerHTML =
-    '<td><input class="nom" type="text" aria-label="Produit"></td>' +
-    '<td class="num"><input type="number" min="0" aria-label="Offre en kg"></td>' +
-    '<td class="num"><input type="number" min="0" aria-label="Demande en kg"></td>' +
-    '<td class="num ecart"></td>' +
-    '<td class="situation"></td>' +
-    '<td class="risque"></td>' +
-    '<td class="reco"></td>' +
-    '<td><button type="button" class="suppr">Supprimer</button></td>';
-  const [nom, offre, demande] = tr.querySelectorAll("input");
-  nom.value = p.nom; offre.value = p.offre; demande.value = p.demande;
 
-  function maj() {
-    const o = parseFloat(offre.value) || 0;
-    const d = parseFloat(demande.value) || 0;
-    const e = o - d;
-    const r = analyser(o, d);
-    tr.className = "r-" + r.couleur;
-    tr.querySelector(".ecart").textContent = (e > 0 ? "+" : "") + e;
-    tr.querySelector(".situation").innerHTML = '<span class="badge ' + r.couleur + '"></span>';
-    tr.querySelector(".situation .badge").textContent = r.texte;
-    tr.querySelector(".risque").textContent = r.risque;
-    tr.querySelector(".reco").textContent = r.reco;
-  }
+    // Analyser la situation d'un produit
 
-  offre.addEventListener("input", maj);
-  demande.addEventListener("input", maj);
-  tr.querySelector(".suppr").addEventListener("click", () => tr.remove());
-  corps.appendChild(tr);
-  maj();
-}
+    function analyzeProduct(product) {
 
-document.getElementById("ajouter").addEventListener("click", () => ajouterLigne({ nom: "", offre: 0, demande: 0 }));
-produits.forEach(ajouterLigne);
+        let balance = product.offer - product.demand;
+
+        let situation;
+        let recommendation;
+        let statusClass;
+
+        if (balance > 0) {
+
+            situation = "Surstockage";
+            statusClass = "surplus";
+
+            recommendation =
+                "L'offre dépasse la demande. " +
+                "Proposer une promotion, étudier une réduction du prix " +
+                "et limiter les prochains approvisionnements.";
+
+        }
+
+        else if (balance < 0) {
+
+            situation = "Déficit de l'offre";
+            statusClass = "deficit";
+
+            recommendation =
+                "La demande dépasse l'offre. " +
+                "Contacter les fournisseurs, augmenter les quantités " +
+                "disponibles et réévaluer le prix si nécessaire.";
+
+        }
+
+        else {
+
+            situation = "Marché équilibré";
+            statusClass = "balanced";
+
+            recommendation =
+                "L'offre est égale à la demande. " +
+                "Maintenir les prix et assurer un suivi régulier.";
+
+        }
+
+        return {
+            balance,
+            situation,
+            recommendation,
+            statusClass
+        };
+
+    }
+
+
+    // Afficher les produits et les recommandations
+
+    function displayProducts() {
+
+        let table = document.getElementById("productTable");
+        let recommendations =
+            document.getElementById("recommendationList");
+
+        table.innerHTML = "";
+        recommendations.innerHTML = "";
+
+        let totalOffer = 0;
+        let totalDemand = 0;
+
+        products.forEach(function(product) {
+
+            let result = analyzeProduct(product);
+
+            totalOffer += product.offer;
+            totalDemand += product.demand;
+
+            // Ajouter une ligne dans le tableau
+
+            table.innerHTML += `
+                <tr>
+                    <td>${product.name}</td>
+                    <td>${product.offer}</td>
+                    <td>${product.demand}</td>
+                    <td>${result.balance > 0 ? "+" : ""}${result.balance}</td>
+                    <td>
+                        <span class="status ${result.statusClass}">
+                            ${result.situation}
+                        </span>
+                    </td>
+                </tr>
+            `;
+
+            // Ajouter une recommandation
+
+            recommendations.innerHTML += `
+                <div class="recommendation">
+                    <strong>${product.name} : ${result.situation}</strong>
+                    ${result.recommendation}
+                </div>
+            `;
+
+        });
+
+
+        // Mettre à jour les indicateurs
+
+        document.getElementById("totalProducts").textContent =
+            products.length;
+
+        document.getElementById("totalOffer").textContent =
+            totalOffer + " kg";
+
+        document.getElementById("totalDemand").textContent =
+            totalDemand + " kg";
+
+    }
+
+
+    // Ajouter un nouveau produit
+
+    function addProduct() {
+
+        let name = document.getElementById("productName").value.trim();
+
+        let offer = document.getElementById("offer").value;
+
+        let demand = document.getElementById("demand").value;
+
+        if (name === "" || offer === "" || demand === "") {
+
+            alert("Veuillez remplir tous les champs.");
+
+            return;
+
+        }
+
+        offer = Number(offer);
+        demand = Number(demand);
+
+        if (!Number.isFinite(offer) || !Number.isFinite(demand)
+            || offer < 0 || demand < 0) {
+
+            alert("Veuillez saisir des quantités valides.");
+
+            return;
+
+        }
+
+        products.push({
+            name: name,
+            offer: offer,
+            demand: demand
+        });
+
+        document.getElementById("productName").value = "";
+        document.getElementById("offer").value = "";
+        document.getElementById("demand").value = "";
+
+        displayProducts();
+
+    }
+
+
+    // Exécution initiale
+
+    displayProducts();
+
 </script>
+
 </body>
 </html>
