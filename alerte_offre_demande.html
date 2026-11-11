@@ -1,99 +1,344 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freshk - Bilan Journalier & Plan d'Action 24h</title>
+    <style>
+        :root {
+            --primary: #16a34a;
+            --primary-dark: #15803d;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --border: #e2e8f0;
+            --surplus-bg: #ffedd5;
+            --surplus-text: #c2410c;
+            --deficit-bg: #fee2e2;
+            --deficit-text: #b91c1c;
+            --equilibre-bg: #dcfce7;
+            --equilibre-text: #15803d;
+        }
 
-<main>
-  <h2>Analyse du marché : offre et demande</h2>
-  <p class="sub">Écart = offre − demande. Alertes et recommandations générées automatiquement.</p>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
 
-  <div class="cards">
-    <div class="card"><div class="n" id="nb-surstock">0</div>Produits en surstock</div>
-    <div class="card"><div class="n" id="nb-penurie">0</div>Produits en pénurie</div>
-    <div class="card"><div class="n" id="nb-equilibre">0</div>Produits en équilibre</div>
-  </div>
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            padding: 2rem;
+            line-height: 1.5;
+        }
 
-  <div class="table-wrap" id="alertes">
-    <table>
-      <thead>
-        <tr><th>Produit</th><th>Offre</th><th>Demande</th><th>Écart</th><th>Alerte</th><th>Recommandation</th></tr>
-      </thead>
-      <tbody id="tbody"></tbody>
-    </table>
-  </div>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-  <h3>Ajouter un produit</h3>
-  <form id="form">
-    <label>Produit <input id="produit" required></label>
-    <label>Offre <input id="offre" type="number" min="0" required></label>
-    <label>Demande <input id="demande" type="number" min="0" required></label>
-    <button type="submit">Analyser</button>
-  </form>
-</main>
+        header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
 
-<footer>Freshk - Sprint 3 : Analyse du marché (offre et demande)</footer>
+        header h1 {
+            color: var(--primary-dark);
+            font-size: 1.7rem;
+        }
+
+        header p {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        .date-filter {
+            background: var(--card);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .date-filter label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #334155;
+        }
+
+        .date-filter input[type="date"] {
+            padding: 0.4rem 0.6rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+
+        /* Cartes KPI */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .kpi-card {
+            background: var(--card);
+            padding: 1.25rem;
+            border-radius: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border-left: 4px solid var(--primary);
+        }
+
+        .kpi-card.surplus { border-left-color: #f97316; }
+        .kpi-card.deficit { border-left-color: #ef4444; }
+        .kpi-card.equilibre { border-left-color: #22c55e; }
+
+        .kpi-title {
+            font-size: 0.8rem;
+            color: #64748b;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .kpi-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-top: 0.25rem;
+        }
+
+        /* Formulaire d'ajout */
+        .form-card {
+            background: var(--card);
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .form-card h2 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1.5fr 1fr 1fr auto;
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.35rem;
+            color: #475569;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.6rem 0.8rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.65rem 1.25rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Tableau */
+        .table-card {
+            background: var(--card);
+            border-radius: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            overflow-x: auto;
+        }
+
+        .table-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-header h2 {
+            font-size: 1.15rem;
+            color: var(--text);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.92rem;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: #475569;
+            font-weight: 700;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .badge-surplus {
+            background-color: var(--surplus-bg);
+            color: var(--surplus-text);
+        }
+
+        .badge-deficit {
+            background-color: var(--deficit-bg);
+            color: var(--deficit-text);
+        }
+
+        .badge-equilibre {
+            background-color: var(--equilibre-bg);
+            color: var(--equilibre-text);
+        }
+
+        .ecart-pos { color: var(--surplus-text); font-weight: 700; }
+        .ecart-neg { color: var(--deficit-text); font-weight: 700; }
+        .ecart-zero { color: var(--equilibre-text); font-weight: 700; }
+
+        .btn-delete {
+            background-color: #ef4444;
+            padding: 0.35rem 0.65rem;
+            font-size: 0.8rem;
+        }
+        .btn-delete:hover { background-color: #dc2626; }
+
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #64748b;
+        }
+
+        @media (max-width: 900px) {
+            .form-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div>
+            <h1>Freshk | Clôture Journalière & Décisions 24h</h1>
+            <p>Bilan de fin de journée par produit pour piloter l'équilibre des prochaines 24 heures</p>
+        </div>
+        <div class="date-filter">
+            <label for="filter-date">Date du bilan :</label>
+            <input type="date" id="filter-date">
+        </div>
+    </header>
+
+    <!-- Résumé KPI du jour sélectionné -->
+    <div class="kpi-grid">
+        <div class="kpi-card">
+            <div class="kpi-title">Produits Bilantés (Jour)</div>
+            <div class="kpi-value" id="kpi-total">0</div>
+        </div>
+        <div class="kpi-card equilibre">
+            <div class="kpi-title">Équilibre (Écart = 0 kg)</div>
+            <div class="kpi-value" id="kpi-equilibre" style="color: #15803d;">0</div>
+        </div>
+        <div class="kpi-card surplus">
+            <div class="kpi-title">Surplus (Écart > 0 kg)</div>
+            <div class="kpi-value" id="kpi-surplus" style="color: #c2410c;">0</div>
+        </div>
+        <div class="kpi-card deficit">
+            <div class="kpi-title">Déficit (Écart < 0 kg)</div>
+            <div class="kpi-value" id="kpi-deficit" style="color: #b91c1c;">0</div>
+        </div>
+    </div>
+
+    <!-- Formulaire de saisie fin de journée -->
+    <div class="form-card">
+        <h2>Enregistrer le bilan de fin de journée d'un produit</h2>
+        <form id="product-form" class="form-grid">
+            <div class="form-group">
+                <label for="date-saisie">Jour</label>
+                <input type="date" id="date-saisie" required>
+            </div>
+            <div class="form-group">
+                <label for="produit">Produit</label>
+                <input type="text" id="produit" placeholder="Ex: Tomates, Fraises..." required>
+            </div>
+            <div class="form-group">
+                <label for="offre">Offre Totale Jour (kg)</label>
+                <input type="number" id="offre" min="0" step="1" placeholder="Ex: 1200" required>
+            </div>
+            <div class="form-group">
+                <label for="demande">Demande Totale Jour (kg)</label>
+                <input type="number" id="demande" min="0" step="1" placeholder="Ex: 850" required>
+            </div>
+            <button type="submit">+ Générer Plan 24h</button>
+        </form>
+    </div>
+
+    <!-- Tableau Décisionnel -->
+    <div class="table-card">
+        <div class="table-header">
+            <h2 id="table-title">Synthèse du jour & Actions pour les prochaines 24h</h2>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Jour</th>
+                    <th>Produit</th>
+                    <th>Offre Totale (kg)</th>
+                    <th>Demande Totale (kg)</th>
+                    <th>Écart (kg)</th>
+                    <th>Situation</th>
+                    <th>Recommandations (Prochaines 24h)</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                <!-- Généré dynamiquement par JavaScript -->
+            </tbody>
+        </table>
+    </div>
+</div>
 
 <script>
-  // Même logique que alertes_marche.py
-  function analyserMarche(produit, offre, demande) {
-    const ecart = offre - demande;
-    let alerte, recommandation;
-    if (ecart > 0) {
-      alerte = "Surstock";
-      recommandation = "Réduire l'offre ou baisser le prix";
-    } else if (ecart < 0) {
-      alerte = "Pénurie";
-      recommandation = "Augmenter l'offre de " + Math.abs(ecart) + " unités";
-    } else {
-      alerte = "Équilibre";
-      recommandation = "Maintenir l'offre";
-    }
-    return { produit, offre, demande, ecart, alerte, recommandation };
-  }
-
-  const produits = [
-    ["Tomates", 100, 160],
-    ["Pommes de terre", 200, 100],
-    ["Oranges", 150, 150]
-  ];
-
-  function afficher() {
-    const tbody = document.getElementById("tbody");
-    tbody.innerHTML = "";
-    const compteur = { Surstock: 0, Pénurie: 0, Équilibre: 0 };
-    produits.forEach(([nom, offre, demande]) => {
-      const r = analyserMarche(nom, offre, demande);
-      compteur[r.alerte]++;
-      const tr = document.createElement("tr");
-      [r.produit, r.offre, r.demande, r.ecart].forEach(v => {
-        const td = document.createElement("td");
-        td.textContent = v;
-        tr.appendChild(td);
-      });
-      const tdAlerte = document.createElement("td");
-      const badge = document.createElement("span");
-      badge.className = "badge " + r.alerte;
-      badge.textContent = r.alerte;
-      tdAlerte.appendChild(badge);
-      tr.appendChild(tdAlerte);
-      const tdReco = document.createElement("td");
-      tdReco.textContent = r.recommandation;
-      tr.appendChild(tdReco);
-      tbody.appendChild(tr);
-    });
-    document.getElementById("nb-surstock").textContent = compteur.Surstock;
-    document.getElementById("nb-penurie").textContent = compteur.Pénurie;
-    document.getElementById("nb-equilibre").textContent = compteur.Équilibre;
-  }
-
-  document.getElementById("form").addEventListener("submit", e => {
-    e.preventDefault();
-    produits.push([
-      document.getElementById("produit").value,
-      Number(document.getElementById("offre").value),
-      Number(document.getElementById("demande").value)
-    ]);
-    e.target.reset();
-    afficher();
-  });
-
-  afficher();
-</script>
-</body>
-</html>
