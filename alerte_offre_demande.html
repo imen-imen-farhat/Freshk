@@ -2,317 +2,252 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Freshk | Tableau de bord</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Freshk | Offre et demande</title>
 <style>
-:root{--green:#0f6b48;--light:#f3f7f4;--text:#14231c;--muted:#4a5a52;--border:#c9d6ce;--red:#b00020;--orange:#8a4b00}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-section,.section-title{scroll-margin-top:16px}
-body{margin:0;font-family:Arial,sans-serif;background:var(--light);color:var(--text)}
-.layout{display:flex;min-height:100vh}
-.sidebar{width:240px;background:#fff;padding:28px 20px;border-right:2px solid var(--border);position:sticky;top:0;height:100vh;align-self:flex-start;overflow-y:auto}
-.logo{font-size:28px;font-weight:800;color:var(--green);margin-bottom:6px}
-.subtitle{font-size:13px;color:var(--muted);margin-bottom:34px}
-.nav-title{font-size:12px;font-weight:bold;color:var(--muted);margin:24px 0 10px}
-.nav a{display:block;padding:12px;margin:4px 0;border-radius:9px;text-decoration:none;color:var(--text);font-size:15px}
-.nav a.active,.nav a:hover{background:#dff0e6;color:var(--green);font-weight:bold}
-.main{flex:1;min-width:0;padding:30px 35px}
-.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;gap:15px;flex-wrap:wrap}
-h1{font-size:27px;margin:0 0 6px}
-.muted{color:var(--muted);font-size:14px}
-.user{background:#fff;border:2px solid var(--border);padding:11px 16px;border-radius:12px;font-size:13px;line-height:1.6}
-.welcome{background:#0f4a34;color:#fff;padding:24px 28px;border-radius:16px;margin-bottom:24px}
-.welcome h2{margin:0 0 8px;font-size:22px}
-.welcome p{margin:0;font-size:15px}
-.section-title{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:26px 0 14px}
-.section-title h2{font-size:19px;margin:0}
-.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.card{background:#fff;border:2px solid var(--border);border-radius:13px;padding:18px}
-.card-label{font-size:14px;color:var(--muted)}
-.card-value{font-size:28px;font-weight:bold;margin:10px 0 4px}
-.card-note{font-size:12px;color:var(--muted)}
-.green{color:var(--green)}.orange{color:var(--orange)}.red{color:var(--red)}
-.box{background:#fff;border:2px solid var(--border);border-radius:13px;padding:20px}
-.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
-input,select{border:2px solid #9fb2a7;border-radius:8px;padding:10px 12px;font-size:14px;background:#fff;color:var(--text)}
-input:focus-visible,select:focus-visible,button:focus-visible{outline:3px solid #1a5fff;outline-offset:2px}
-.search{flex:1;min-width:180px}
-button{border:0;border-radius:8px;padding:11px 16px;cursor:pointer;font-weight:700;font-size:14px}
-.primary{background:var(--green);color:#fff}
-.secondary{background:#dff0e6;color:var(--green)}
-table{width:100%;border-collapse:collapse;min-width:620px}
-th{background:#e8f0ea;text-align:left;color:var(--text);font-size:13px;padding:13px 12px}
-td{padding:14px 12px;border-bottom:1px solid var(--border);font-size:14px}
-.product{font-weight:bold}
-.badge{display:inline-block;border-radius:20px;padding:6px 12px;font-size:12px;font-weight:bold}
-.equilibre{background:#d9f2e2;color:#05502d}
-.deficit{background:#fde4e4;color:#8c0019}
-.surplus{background:#ffefcc;color:#6b3a00}
-.alert-item{padding:14px 16px;margin-bottom:10px;border-left:8px solid;border-radius:6px;font-size:14px;line-height:1.6}
-.alert-item strong{display:block;margin-bottom:3px}
-.alert-item ul,.recommendation ul{margin:8px 0 0;padding-left:22px}
-.alert-item.deficit{border-color:var(--red)}
-.alert-item.surplus{border-color:#c77a00}
-.alert-item.equilibre{border-color:var(--green)}
-.recommendation{background:#e8f4ec;border-left:8px solid var(--green);border-radius:6px;padding:14px 16px;margin-bottom:10px;font-size:14px;line-height:1.6}
-.recommendation strong{color:var(--green)}
-.modal{display:none;position:fixed;inset:0;background:#0009;justify-content:center;align-items:center;padding:15px;z-index:5}
-.modal-content{background:#fff;border-radius:15px;padding:25px;width:100%;max-width:440px}
-.modal-content h3{margin-top:0}
-.modal-content input{width:100%;margin:6px 0 14px}
-.close{float:right;background:#e5e5e5;color:#111}
-.footer{text-align:center;color:var(--muted);font-size:12px;margin-top:30px}
-@media(max-width:1000px){.cards{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:850px){.sidebar{width:180px;padding:20px 12px}.main{padding:20px}}
-@media(max-width:550px){.sidebar{display:none}.main{padding:15px}.cards{grid-template-columns:1fr}}
+  body{font-family:Arial,sans-serif;background:#f3f7f4;color:#14231c;margin:0;padding:30px}
+  h1{color:#0f6b48;margin:0 0 6px}
+  .maj{color:#4a5a52;font-size:14px;margin:0 0 20px}
+  .outils{margin-bottom:16px}
+  input,select{padding:9px;border:2px solid #9fb2a7;border-radius:6px;font-size:14px;background:#fff}
+  button{padding:9px 14px;border:0;border-radius:6px;background:#0f6b48;color:#fff;font-weight:bold;cursor:pointer}
+  table{width:100%;border-collapse:collapse;background:#fff;margin-bottom:16px}
+  th,td{border:2px solid #c9d6ce;padding:12px;text-align:left}
+  th{background:#0f6b48;color:#fff}
+  .deficit{color:#b00020;font-weight:bold}
+  .surstock{color:#8a4b00;font-weight:bold}
+  .equilibre{color:#0f6b48;font-weight:bold}
+  .fond{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);justify-content:center;align-items:center;padding:15px}
+  .fenetre{background:#fff;border-radius:12px;padding:24px;width:100%;max-width:520px}
+  .fenetre h2{margin:0 0 12px;color:#0f6b48}
+  .fenetre p{margin:6px 0}
+  .fenetre ul{padding-left:20px;line-height:1.7}
+  .fenetre table{margin:10px 0}
+  .fenetre th,.fenetre td{padding:8px}
+  .fenetre input{width:100%;margin:4px 0}
+  .fenetre .fNom{width:55%}
+  .fenetre .fQte{width:40%}
+  .secondaire{background:#dff0e6;color:#0f6b48}
 </style>
 </head>
 <body>
-<div class="layout">
 
-<aside class="sidebar">
-  <div class="logo">Freshk</div>
-  <div class="subtitle">Supply &amp; Demand Management</div>
-  <div class="nav-title">MENU PRINCIPAL</div>
-  <nav class="nav">
-    <a class="active" href="#accueil">Tableau de bord</a>
-    <a href="#produits">Analyse des produits</a>
-    <a href="#alertes">Alertes</a>
-    <a href="#recommandations">Recommandations</a>
-  </nav>
-  <div class="nav-title">GESTION</div>
-  <nav class="nav">
-    <a href="#produits" onclick="openModal();return false">+ Ajouter un produit</a>
-  </nav>
-</aside>
+<h1>Freshk</h1>
+<p class="maj">Actualisation automatique activée</p>
 
-<main class="main" id="accueil">
-  <header class="topbar">
-    <div>
-      <h1>Tableau de bord</h1>
-      <div class="muted">Gestion et analyse des offres et des demandes</div>
-    </div>
-    <div class="user">Responsable des offres et demandes<br>
-      <span class="green">Actualisation automatique activée</span><br>
-      <span class="muted" id="lastUpdate">Dernière actualisation : --:--:--</span>
-    </div>
-  </header>
-
-  <section class="welcome">
-    <h2>Bienvenue sur Freshk</h2>
-    <p>Suivez les offres et les demandes de vos produits pour garder un bon équilibre.</p>
-  </section>
-
-  <div class="section-title"><h2>Vue globale</h2><span class="muted">Situation actuelle</span></div>
-  <section class="cards">
-    <div class="card"><div class="card-label">Total des offres</div><div class="card-value green" id="totalOffer">0 kg</div><div class="card-note">Quantités proposées</div></div>
-    <div class="card"><div class="card-label">Total des demandes</div><div class="card-value" id="totalDemand">0 kg</div><div class="card-note">Quantités demandées</div></div>
-    <div class="card"><div class="card-label">Écart global</div><div class="card-value" id="totalGap">0 kg</div><div class="card-note">Offres − Demandes</div></div>
-    <div class="card"><div class="card-label">Alertes actives</div><div class="card-value" id="alertCount">0</div><div class="card-note">Produits hors équilibre</div></div>
-  </section>
-
-  <section id="produits">
-    <div class="section-title"><h2>Analyse de l'offre et de la demande par produit</h2><button class="primary" onclick="openModal()">+ Ajouter un produit</button></div>
-    <div class="box">
-      <div class="toolbar">
-        <input class="search" id="search" placeholder="Rechercher un produit..." oninput="render()" aria-label="Rechercher un produit">
-        <select id="filter" onchange="render()" aria-label="Filtrer par situation">
-          <option value="all">Toutes les situations</option>
-          <option value="deficit">Déficit</option>
-          <option value="surplus">Surplus</option>
-          <option value="equilibre">Équilibre</option>
-        </select>
-      </div>
-      <div style="overflow-x:auto">
-        <table>
-          <thead><tr><th>Produit</th><th>Offre totale</th><th>Demande totale</th><th>Écart</th><th>Situation</th><th>Action</th></tr></thead>
-          <tbody id="productTable"></tbody>
-        </table>
-      </div>
-      <p class="muted" id="resultCount"></p>
-    </div>
-  </section>
-
-  <div class="section-title" id="alertes"><h2>Alertes détectées</h2><span class="muted">Générées automatiquement</span></div>
-  <div class="box"><div id="alertList"></div></div>
-
-  <div class="section-title" id="recommandations"><h2>Recommandations</h2><span class="muted">Aide à la décision</span></div>
-  <div class="box"><div id="recommendationList"></div></div>
-
-  <div class="footer">Freshk © 2026 : Projet Génie logiciel, Sprint 3</div>
-</main>
+<div class="outils">
+  <input id="recherche" placeholder="Rechercher un produit..." oninput="afficher()">
+  <select id="filtre" onchange="afficher()">
+    <option value="tous">Toutes les alertes</option>
+    <option value="deficit">Alerte déficit</option>
+    <option value="surstock">Alerte surstock</option>
+    <option value="equilibre">Aucune alerte</option>
+  </select>
 </div>
 
-<div class="modal" id="addModal">
-  <div class="modal-content">
-    <button class="close" onclick="closeModal()" aria-label="Fermer">✕</button>
-    <h3 id="modalTitle">Ajouter un produit</h3>
-    <label for="newName">Nom du produit</label>
-    <input id="newName" placeholder="Ex : Tomates">
-    <label for="newOffer">Offre totale (kg)</label>
-    <input id="newOffer" type="number" min="0" placeholder="Quantité offerte">
-    <label for="newDemand">Demande totale (kg)</label>
-    <input id="newDemand" type="number" min="0" placeholder="Quantité demandée">
-    <button class="primary" id="saveBtn" onclick="saveProduct()">Enregistrer le produit</button>
+<table>
+  <thead>
+    <tr>
+      <th>Produit</th>
+      <th>Quantité offerte</th>
+      <th>Quantité demandée</th>
+      <th>Écart</th>
+      <th>Alerte</th>
+      <th>Recommandation</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody id="tableau"></tbody>
+</table>
+
+<button onclick="ajouter()">Ajouter un produit</button>
+
+<!-- Fenêtre de détail -->
+<div id="fond" class="fond">
+  <div id="fenetre" class="fenetre">
+    <h2 id="detailTitre"></h2>
+    <div id="detailContenu"></div>
+    <p><button onclick="fermer()">Fermer</button></p>
+  </div>
+</div>
+
+<!-- Fenêtre d'ajout d'un produit -->
+<div id="fondAjout" class="fond">
+  <div class="fenetre">
+    <h2>Ajouter un produit</h2>
+    <input id="nomProduit" placeholder="Nom du produit">
+    <input id="demandeProduit" type="number" min="0" placeholder="Quantité demandée (kg)">
+    <p><b>Fournisseurs</b></p>
+    <div id="listeFournisseurs"></div>
+    <p><button class="secondaire" onclick="ajouterLigne()">+ Ajouter un fournisseur</button></p>
+    <p><button onclick="enregistrer()">Enregistrer</button> <button class="secondaire" onclick="fermerAjout()">Annuler</button></p>
   </div>
 </div>
 
 <script>
-var defaultProducts = [
-  {name:"Tomates", offer:500, demand:700},
-  {name:"Pommes de terre", offer:900, demand:600},
-  {name:"Carottes", offer:400, demand:400},
-  {name:"Oranges", offer:300, demand:500},
-  {name:"Poivrons", offer:750, demand:500}
+var produits = [
+  {nom: "Tomates", demande: 700, fournisseurs: [{nom: "Fournisseur A", quantite: 300}, {nom: "Fournisseur B", quantite: 200}]},
+  {nom: "Pommes de terre", demande: 600, fournisseurs: [{nom: "Fournisseur C", quantite: 500}, {nom: "Fournisseur D", quantite: 400}]},
+  {nom: "Carottes", demande: 400, fournisseurs: [{nom: "Fournisseur A", quantite: 250}, {nom: "Fournisseur B", quantite: 150}]},
+  {nom: "Oranges", demande: 500, fournisseurs: [{nom: "Fournisseur C", quantite: 200}, {nom: "Fournisseur D", quantite: 100}]},
+  {nom: "Poivrons", demande: 500, fournisseurs: [{nom: "Fournisseur A", quantite: 450}, {nom: "Fournisseur B", quantite: 300}]}
 ];
-var products;
-try { products = JSON.parse(localStorage.getItem("freshkProducts")) || defaultProducts; }
-catch (e) { products = defaultProducts; }
 
-function saveProducts() {
-  try { localStorage.setItem("freshkProducts", JSON.stringify(products)); } catch (e) {}
-}
-
-// Situation : équilibre si offre = demande, déficit si offre < demande, surplus si offre > demande
-function situation(p) {
-  if (p.offer === p.demand) return "equilibre";
-  return p.offer < p.demand ? "deficit" : "surplus";
-}
-function labelOf(s) { return s === "deficit" ? "Déficit" : s === "surplus" ? "Surplus" : "Équilibre"; }
-function colorOf(g) { return g < 0 ? "red" : g > 0 ? "orange" : "green"; }
-
-function render() {
-  var search = document.getElementById("search").value.toLowerCase();
-  var filter = document.getElementById("filter").value;
-  var totalOffer = 0, totalDemand = 0, alerts = 0;
-
-  products.forEach(function (p) {
-    totalOffer += p.offer;
-    totalDemand += p.demand;
-    if (situation(p) !== "equilibre") alerts++;
+// L'offre totale d'un produit = somme des quantités de ses fournisseurs
+function calculerOffres() {
+  produits.forEach(function (p) {
+    p.offre = p.fournisseurs.reduce(function (somme, f) { return somme + f.quantite; }, 0);
   });
-  var gap = totalOffer - totalDemand;
+}
 
-  document.getElementById("totalOffer").textContent = totalOffer.toLocaleString("fr-FR") + " kg";
-  document.getElementById("totalDemand").textContent = totalDemand.toLocaleString("fr-FR") + " kg";
-  var ge = document.getElementById("totalGap");
-  ge.textContent = (gap > 0 ? "+" : "") + gap.toLocaleString("fr-FR") + " kg";
-  ge.className = "card-value " + colorOf(gap);
-  var ac = document.getElementById("alertCount");
-  ac.textContent = alerts;
-  ac.className = "card-value " + (alerts > 0 ? "red" : "green");
+// Récupère les données enregistrées dans le navigateur
+function charger() {
+  try {
+    var sauvegarde = JSON.parse(localStorage.getItem("freshkProduitsV2"));
+    if (sauvegarde) produits = sauvegarde;
+  } catch (e) {}
+  calculerOffres();
+}
 
-  var filtered = products.filter(function (p) {
-    return p.name.toLowerCase().includes(search) && (filter === "all" || situation(p) === filter);
+// Enregistre les données dans le navigateur
+function sauvegarder() {
+  try { localStorage.setItem("freshkProduitsV2", JSON.stringify(produits)); } catch (e) {}
+}
+
+// Analyse d'un produit : alerte, recommandation courte et propositions détaillées
+function analyser(p) {
+  var ecart = p.offre - p.demande;
+  if (ecart < 0) {
+    var manque = Math.abs(ecart);
+    return {
+      ecart: ecart, classe: "deficit", alerte: "Alerte déficit",
+      reco: "Renforcer l'approvisionnement de " + manque + " kg.",
+      propositions: [
+        "Contacter les fournisseurs habituels pour obtenir " + manque + " kg supplémentaires.",
+        "Identifier un fournisseur alternatif afin de sécuriser l'approvisionnement.",
+        "Négocier des livraisons plus fréquentes pour couvrir la demande."
+      ]
+    };
+  }
+  if (ecart > 0) {
+    return {
+      ecart: ecart, classe: "surstock", alerte: "Alerte surstock",
+      reco: "Ajuster les commandes à la baisse de " + ecart + " kg.",
+      propositions: [
+        "Réduire les prochaines commandes de " + ecart + " kg.",
+        "Lancer une offre promotionnelle pour écouler l'excédent de " + ecart + " kg.",
+        "Suivre l'évolution de la demande afin d'ajuster les futurs achats."
+      ]
+    };
+  }
+  return {
+    ecart: 0, classe: "equilibre", alerte: "Aucune alerte",
+    reco: "Maintenir le niveau d'approvisionnement actuel.",
+    propositions: [
+      "Maintenir le niveau d'approvisionnement actuel.",
+      "Poursuivre le suivi régulier de l'offre et de la demande.",
+      "Anticiper les variations saisonnières de la demande."
+    ]
+  };
+}
+
+function afficher() {
+  var lignes = "";
+  var recherche = document.getElementById("recherche").value.toLowerCase();
+  var filtre = document.getElementById("filtre").value;
+
+  produits.forEach(function (p, i) {
+    var a = analyser(p);
+
+    // Recherche par nom et filtre par alerte
+    if (!p.nom.toLowerCase().includes(recherche)) return;
+    if (filtre !== "tous" && filtre !== a.classe) return;
+
+    lignes += "<tr>" +
+      "<td>" + p.nom + "</td>" +
+      "<td>" + p.offre + " kg</td>" +
+      "<td>" + p.demande + " kg</td>" +
+      "<td>" + (a.ecart > 0 ? "+" : "") + a.ecart + " kg</td>" +
+      "<td class='" + a.classe + "'>" + a.alerte + "</td>" +
+      "<td>" + a.reco + "</td>" +
+      "<td><button onclick='detail(" + i + ")'>Détail</button></td>" +
+      "</tr>";
   });
+  document.getElementById("tableau").innerHTML = lignes || "<tr><td colspan='7'>Aucun produit trouvé.</td></tr>";
+}
 
-  document.getElementById("productTable").innerHTML = filtered.map(function (p) {
-    var g = p.offer - p.demand, s = situation(p);
-    return "<tr><td class='product'>" + p.name + "</td>" +
-      "<td>" + p.offer.toLocaleString("fr-FR") + " kg</td>" +
-      "<td>" + p.demand.toLocaleString("fr-FR") + " kg</td>" +
-      "<td class='" + colorOf(g) + "'>" + (g > 0 ? "+" : "") + g + " kg</td>" +
-      "<td><span class='badge " + s + "'>" + labelOf(s) + "</span></td>" +
-      "<td><button class='secondary' onclick='editProduct(" + products.indexOf(p) + ")'>Modifier</button></td></tr>";
+// Affiche le détail d'un produit : quantité offerte par fournisseur et propositions
+function detail(i) {
+  var p = produits[i], a = analyser(p);
+  var lignesFournisseurs = p.fournisseurs.map(function (f) {
+    return "<tr><td>" + f.nom + "</td><td>" + f.quantite + " kg</td></tr>";
   }).join("");
-  document.getElementById("resultCount").textContent = filtered.length + " produit(s) affiché(s)";
 
-  renderAlerts();
-  renderRecommendations();
+  document.getElementById("detailTitre").textContent = "Détail : " + p.nom;
+  document.getElementById("detailContenu").innerHTML =
+    "<p><b>Quantité demandée :</b> " + p.demande + " kg</p>" +
+    "<table><tr><th>Fournisseur</th><th>Quantité offerte</th></tr>" + lignesFournisseurs +
+    "<tr><td><b>Total offert</b></td><td><b>" + p.offre + " kg</b></td></tr></table>" +
+    "<p><b>Écart :</b> " + (a.ecart > 0 ? "+" : "") + a.ecart + " kg</p>" +
+    "<p><b>Alerte :</b> <span class='" + a.classe + "'>" + a.alerte + "</span></p>" +
+    "<p><b>Propositions :</b></p><ul>" +
+    a.propositions.map(function (t) { return "<li>" + t + "</li>"; }).join("") + "</ul>";
+  document.getElementById("fond").style.display = "flex";
 }
 
-function groupBySituation() {
-  var g = {deficit: [], surplus: [], equilibre: []};
-  products.forEach(function (p) { g[situation(p)].push(p); });
-  return g;
+function fermer() { document.getElementById("fond").style.display = "none"; }
+
+// Ouvre la fenêtre d'ajout d'un produit
+function ajouter() {
+  document.getElementById("nomProduit").value = "";
+  document.getElementById("demandeProduit").value = "";
+  document.getElementById("listeFournisseurs").innerHTML = "";
+  ajouterLigne();
+  ajouterLigne();
+  document.getElementById("fondAjout").style.display = "flex";
 }
 
-function listeProduits(arr, avecKg) {
-  return arr.map(function (p) {
-    var ecart = Math.abs(p.offer - p.demand);
-    return avecKg ? "<li><strong>" + p.name + "</strong> : " + ecart + " kg</li>" : "<li><strong>" + p.name + "</strong></li>";
-  }).join("");
+function fermerAjout() { document.getElementById("fondAjout").style.display = "none"; }
+
+// Ajoute une ligne fournisseur (nom + quantité) dans la fenêtre
+function ajouterLigne() {
+  var ligne = document.createElement("div");
+  ligne.innerHTML = "<input class='fNom' placeholder='Nom du fournisseur'> <input class='fQte' type='number' min='0' placeholder='Quantité (kg)'>";
+  document.getElementById("listeFournisseurs").appendChild(ligne);
 }
 
-function renderAlerts() {
-  var g = groupBySituation(), html = "";
-  if (g.deficit.length) html += "<div class='alert-item deficit'><strong class='red'>Alerte déficit : " + g.deficit.length + " produit(s)</strong>La demande dépasse l'offre pour :<ul>" + listeProduits(g.deficit, true) + "</ul></div>";
-  if (g.surplus.length) html += "<div class='alert-item surplus'><strong class='orange'>Alerte surplus : " + g.surplus.length + " produit(s)</strong>L'offre dépasse la demande pour :<ul>" + listeProduits(g.surplus, true) + "</ul></div>";
-  if (g.equilibre.length) html += "<div class='alert-item equilibre'><strong class='green'>Équilibre : " + g.equilibre.length + " produit(s)</strong>L'offre est égale à la demande pour :<ul>" + listeProduits(g.equilibre, false) + "</ul></div>";
-  document.getElementById("alertList").innerHTML = html || "Aucune alerte détectée.";
-}
-
-function renderRecommendations() {
-  var g = groupBySituation(), html = "";
-  if (g.deficit.length) html += "<div class='recommendation'><strong>Produits en déficit</strong><br>Augmenter l'approvisionnement en cherchant des fournisseurs capables de couvrir le manque :<ul>" +
-    g.deficit.map(function (p) { return "<li><strong>" + p.name + "</strong> : +" + (p.demand - p.offer) + " kg à approvisionner</li>"; }).join("") + "</ul></div>";
-  if (g.surplus.length) html += "<div class='recommendation'><strong>Produits en surplus</strong><br>Réduire les prochaines quantités commandées et surveiller le risque de gaspillage :<ul>" +
-    g.surplus.map(function (p) { return "<li><strong>" + p.name + "</strong> : -" + (p.offer - p.demand) + " kg à commander en moins</li>"; }).join("") + "</ul></div>";
-  if (g.equilibre.length) html += "<div class='recommendation'><strong>Produits en équilibre</strong><br>Maintenir le niveau actuel d'approvisionnement et continuer le suivi :<ul>" + listeProduits(g.equilibre, false) + "</ul></div>";
-  document.getElementById("recommendationList").innerHTML = html || "Aucune recommandation.";
-}
-
-var editIndex = null;
-
-function openModal() {
-  editIndex = null;
-  document.getElementById("modalTitle").textContent = "Ajouter un produit";
-  document.getElementById("saveBtn").textContent = "Enregistrer le produit";
-  ["newName", "newOffer", "newDemand"].forEach(function (id) { document.getElementById(id).value = ""; });
-  document.getElementById("addModal").style.display = "flex";
-}
-
-function editProduct(i) {
-  editIndex = i;
-  var p = products[i];
-  document.getElementById("modalTitle").textContent = "Modifier le produit";
-  document.getElementById("saveBtn").textContent = "Mettre à jour";
-  document.getElementById("newName").value = p.name;
-  document.getElementById("newOffer").value = p.offer;
-  document.getElementById("newDemand").value = p.demand;
-  document.getElementById("addModal").style.display = "flex";
-}
-
-function closeModal() { document.getElementById("addModal").style.display = "none"; }
-
-function saveProduct() {
-  var name = document.getElementById("newName").value.trim();
-  var ov = document.getElementById("newOffer").value;
-  var dv = document.getElementById("newDemand").value;
-  var offer = Number(ov), demand = Number(dv);
-  if (!name || ov === "" || dv === "" || offer < 0 || demand < 0) {
-    alert("Veuillez saisir un nom et des quantités valides.");
+// Enregistre le nouveau produit avec ses fournisseurs
+function enregistrer() {
+  var nom = document.getElementById("nomProduit").value.trim();
+  var demande = document.getElementById("demandeProduit").value;
+  if (nom === "" || demande === "") {
+    alert("Remplissez le nom du produit et la quantité demandée.");
     return;
   }
-  var existe = products.some(function (p, k) { return k !== editIndex && p.name.toLowerCase() === name.toLowerCase(); });
-  if (existe) {
-    alert("Ce produit existe déjà.");
+  var fournisseurs = [];
+  document.querySelectorAll("#listeFournisseurs div").forEach(function (ligne) {
+    var n = ligne.querySelector(".fNom").value.trim();
+    var q = ligne.querySelector(".fQte").value;
+    if (n !== "" && q !== "") fournisseurs.push({nom: n, quantite: Number(q)});
+  });
+  if (fournisseurs.length === 0) {
+    alert("Ajoutez au moins un fournisseur avec sa quantité.");
     return;
   }
-  if (editIndex === null) products.push({name: name, offer: offer, demand: demand});
-  else products[editIndex] = {name: name, offer: offer, demand: demand};
-  saveProducts();
-  closeModal();
-  refreshDashboard();
+  produits.push({nom: nom, demande: Number(demande), fournisseurs: fournisseurs});
+  calculerOffres();
+  sauvegarder();
+  afficher();
+  fermerAjout();
 }
 
-function refreshDashboard() {
-  render();
-  document.getElementById("lastUpdate").textContent = "Dernière actualisation : " + new Date().toLocaleTimeString("fr-FR");
+// Actualisation automatique
+function actualiser() {
+  charger();
+  afficher();
 }
-
-// Menu : met en évidence le lien cliqué
-document.querySelectorAll(".sidebar .nav a[href^='#']").forEach(function (a) {
-  a.addEventListener("click", function () {
-    if (a.getAttribute("onclick")) return;
-    document.querySelectorAll(".sidebar .nav a").forEach(function (x) { x.classList.remove("active"); });
-    a.classList.add("active");
-  });
-});
-
-refreshDashboard();
-setInterval(refreshDashboard, 30000);
+actualiser();
+setInterval(actualiser, 30000);
 </script>
 </body>
 </html>
