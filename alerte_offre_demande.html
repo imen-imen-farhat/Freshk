@@ -1,524 +1,318 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Freshk - Dashboard</title>
-
+<title>Freshk | Tableau de bord</title>
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
-
-body {
-    background: #f4f7f5;
-    color: #263b32;
-}
-
-header {
-    background: #174d3b;
-    color: white;
-    padding: 22px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
-    font-size: 27px;
-    font-weight: bold;
-}
-
-.logo span {
-    color: #9ce0a9;
-}
-
-header p {
-    font-size: 13px;
-    color: #d8eee0;
-}
-
-.container {
-    max-width: 1250px;
-    margin: 35px auto;
-    padding: 0 25px;
-}
-
-.welcome {
-    margin-bottom: 28px;
-}
-
-.welcome h1 {
-    font-size: 27px;
-    margin-bottom: 8px;
-}
-
-.welcome p {
-    color: #718078;
-}
-
-.stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
-    margin-bottom: 30px;
-}
-
-.stat-card {
-    background: white;
-    padding: 23px;
-    border-radius: 12px;
-    box-shadow: 0 3px 12px #00000008;
-    border-left: 4px solid #24845b;
-}
-
-.stat-card p {
-    color: #78847e;
-    font-size: 13px;
-    margin-bottom: 13px;
-}
-
-.stat-card h2 {
-    font-size: 27px;
-    color: #174d3b;
-}
-
-.unit {
-    font-size: 13px;
-    color: #829087;
-}
-
-.section {
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    margin-bottom: 25px;
-    box-shadow: 0 3px 12px #00000008;
-}
-
-.section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-    flex-wrap: wrap;
-    margin-bottom: 22px;
-}
-
-.section h2 {
-    font-size: 19px;
-}
-
-.search {
-    padding: 11px 15px;
-    border: 1px solid #dce5df;
-    border-radius: 8px;
-    width: 240px;
-    outline: none;
-}
-
-.search:focus, input:focus {
-    border-color: #24845b;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 750px;
-}
-
-.table-wrapper {
-    overflow-x: auto;
-}
-
-th {
-    background: #edf5ef;
-    color: #315c47;
-    padding: 15px;
-    text-align: left;
-    font-size: 13px;
-}
-
-td {
-    padding: 16px 15px;
-    border-bottom: 1px solid #edf0ed;
-    font-size: 13px;
-}
-
-.product {
-    font-weight: bold;
-}
-
-.status {
-    padding: 7px 11px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: bold;
-    display: inline-block;
-}
-
-.deficit {
-    background: #fde8e7;
-    color: #c43c35;
-}
-
-.surplus {
-    background: #fff2d9;
-    color: #a76a13;
-}
-
-.balance {
-    background: #e1f4e7;
-    color: #23804a;
-}
-
-.recommendations {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-}
-
-.recommendation {
-    padding: 17px;
-    background: #f8faf8;
-    border-radius: 9px;
-    border-left: 4px solid #24845b;
-}
-
-.recommendation h3 {
-    font-size: 15px;
-    margin-bottom: 9px;
-}
-
-.recommendation p {
-    font-size: 13px;
-    color: #68766e;
-    line-height: 1.6;
-}
-
-.rec-deficit {
-    border-left-color: #d9534f;
-}
-
-.rec-surplus {
-    border-left-color: #e5a33b;
-}
-
-.rec-balance {
-    border-left-color: #329d60;
-}
-
-footer {
-    text-align: center;
-    padding: 25px;
-    color: #87948c;
-    font-size: 12px;
-}
-
-@media(max-width: 850px) {
-    .stats {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media(max-width: 550px) {
-    header {
-        padding: 20px;
-    }
-
-    .stats {
-        grid-template-columns: 1fr;
-    }
-
-    .recommendations {
-        grid-template-columns: 1fr;
-    }
-
-    .container {
-        padding: 0 12px;
-    }
-}
+:root{--green:#0f6b48;--light:#f3f7f4;--text:#14231c;--muted:#4a5a52;--border:#c9d6ce;--red:#b00020;--orange:#8a4b00}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+section,.section-title{scroll-margin-top:16px}
+body{margin:0;font-family:Arial,sans-serif;background:var(--light);color:var(--text)}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:240px;background:#fff;padding:28px 20px;border-right:2px solid var(--border);position:sticky;top:0;height:100vh;align-self:flex-start;overflow-y:auto}
+.logo{font-size:28px;font-weight:800;color:var(--green);margin-bottom:6px}
+.subtitle{font-size:13px;color:var(--muted);margin-bottom:34px}
+.nav-title{font-size:12px;font-weight:bold;color:var(--muted);margin:24px 0 10px}
+.nav a{display:block;padding:12px;margin:4px 0;border-radius:9px;text-decoration:none;color:var(--text);font-size:15px}
+.nav a.active,.nav a:hover{background:#dff0e6;color:var(--green);font-weight:bold}
+.main{flex:1;min-width:0;padding:30px 35px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;gap:15px;flex-wrap:wrap}
+h1{font-size:27px;margin:0 0 6px}
+.muted{color:var(--muted);font-size:14px}
+.user{background:#fff;border:2px solid var(--border);padding:11px 16px;border-radius:12px;font-size:13px;line-height:1.6}
+.welcome{background:#0f4a34;color:#fff;padding:24px 28px;border-radius:16px;margin-bottom:24px}
+.welcome h2{margin:0 0 8px;font-size:22px}
+.welcome p{margin:0;font-size:15px}
+.section-title{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:26px 0 14px}
+.section-title h2{font-size:19px;margin:0}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{background:#fff;border:2px solid var(--border);border-radius:13px;padding:18px}
+.card-label{font-size:14px;color:var(--muted)}
+.card-value{font-size:28px;font-weight:bold;margin:10px 0 4px}
+.card-note{font-size:12px;color:var(--muted)}
+.green{color:var(--green)}.orange{color:var(--orange)}.red{color:var(--red)}
+.box{background:#fff;border:2px solid var(--border);border-radius:13px;padding:20px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+input,select{border:2px solid #9fb2a7;border-radius:8px;padding:10px 12px;font-size:14px;background:#fff;color:var(--text)}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:3px solid #1a5fff;outline-offset:2px}
+.search{flex:1;min-width:180px}
+button{border:0;border-radius:8px;padding:11px 16px;cursor:pointer;font-weight:700;font-size:14px}
+.primary{background:var(--green);color:#fff}
+.secondary{background:#dff0e6;color:var(--green)}
+table{width:100%;border-collapse:collapse;min-width:620px}
+th{background:#e8f0ea;text-align:left;color:var(--text);font-size:13px;padding:13px 12px}
+td{padding:14px 12px;border-bottom:1px solid var(--border);font-size:14px}
+.product{font-weight:bold}
+.badge{display:inline-block;border-radius:20px;padding:6px 12px;font-size:12px;font-weight:bold}
+.equilibre{background:#d9f2e2;color:#05502d}
+.deficit{background:#fde4e4;color:#8c0019}
+.surplus{background:#ffefcc;color:#6b3a00}
+.alert-item{padding:14px 16px;margin-bottom:10px;border-left:8px solid;border-radius:6px;font-size:14px;line-height:1.6}
+.alert-item strong{display:block;margin-bottom:3px}
+.alert-item ul,.recommendation ul{margin:8px 0 0;padding-left:22px}
+.alert-item.deficit{border-color:var(--red)}
+.alert-item.surplus{border-color:#c77a00}
+.alert-item.equilibre{border-color:var(--green)}
+.recommendation{background:#e8f4ec;border-left:8px solid var(--green);border-radius:6px;padding:14px 16px;margin-bottom:10px;font-size:14px;line-height:1.6}
+.recommendation strong{color:var(--green)}
+.modal{display:none;position:fixed;inset:0;background:#0009;justify-content:center;align-items:center;padding:15px;z-index:5}
+.modal-content{background:#fff;border-radius:15px;padding:25px;width:100%;max-width:440px}
+.modal-content h3{margin-top:0}
+.modal-content input{width:100%;margin:6px 0 14px}
+.close{float:right;background:#e5e5e5;color:#111}
+.footer{text-align:center;color:var(--muted);font-size:12px;margin-top:30px}
+@media(max-width:1000px){.cards{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:850px){.sidebar{width:180px;padding:20px 12px}.main{padding:20px}}
+@media(max-width:550px){.sidebar{display:none}.main{padding:15px}.cards{grid-template-columns:1fr}}
 </style>
 </head>
-
 <body>
+<div class="layout">
 
-<header>
-    <div class="logo">Fresh<span>k.</span></div>
-    <p>Tableau de bord | Gestion Offre & Demande</p>
-</header>
+<aside class="sidebar">
+  <div class="logo">Freshk</div>
+  <div class="subtitle">Supply &amp; Demand Management</div>
+  <div class="nav-title">MENU PRINCIPAL</div>
+  <nav class="nav">
+    <a class="active" href="#accueil">Tableau de bord</a>
+    <a href="#produits">Analyse des produits</a>
+    <a href="#alertes">Alertes</a>
+    <a href="#recommandations">Recommandations</a>
+  </nav>
+  <div class="nav-title">GESTION</div>
+  <nav class="nav">
+    <a href="#produits" onclick="openModal();return false">+ Ajouter un produit</a>
+  </nav>
+</aside>
 
-<div class="container">
-
-    <div class="welcome">
-        <h1>Tableau de bord</h1>
-        <p>Analyse globale de l'offre et de la demande par produit.</p>
+<main class="main" id="accueil">
+  <header class="topbar">
+    <div>
+      <h1>Tableau de bord</h1>
+      <div class="muted">Gestion et analyse des offres et des demandes</div>
     </div>
-
-    <!-- INDICATEURS GENERAUX -->
-
-    <div class="stats">
-
-        <div class="stat-card">
-            <p>Offre totale</p>
-            <h2 id="totalOffer">0</h2>
-            <span class="unit">Kg disponibles</span>
-        </div>
-
-        <div class="stat-card">
-            <p>Demande totale</p>
-            <h2 id="totalDemand">0</h2>
-            <span class="unit">Kg demandés</span>
-        </div>
-
-        <div class="stat-card">
-            <p>Écart global</p>
-            <h2 id="totalGap">0</h2>
-            <span class="unit">Kg (Offre - Demande)</span>
-        </div>
-
-        <div class="stat-card">
-            <p>Produits en déficit</p>
-            <h2 id="deficitCount">0</h2>
-            <span class="unit">Produits à surveiller</span>
-        </div>
-
+    <div class="user">Responsable des offres et demandes<br>
+      <span class="green">Actualisation automatique activée</span><br>
+      <span class="muted" id="lastUpdate">Dernière actualisation : --:--:--</span>
     </div>
+  </header>
 
-    <!-- ANALYSE PAR PRODUIT -->
+  <section class="welcome">
+    <h2>Bienvenue sur Freshk</h2>
+    <p>Suivez les offres et les demandes de vos produits pour garder un bon équilibre.</p>
+  </section>
 
-    <div class="section">
+  <div class="section-title"><h2>Vue globale</h2><span class="muted">Situation actuelle</span></div>
+  <section class="cards">
+    <div class="card"><div class="card-label">Total des offres</div><div class="card-value green" id="totalOffer">0 kg</div><div class="card-note">Quantités proposées</div></div>
+    <div class="card"><div class="card-label">Total des demandes</div><div class="card-value" id="totalDemand">0 kg</div><div class="card-note">Quantités demandées</div></div>
+    <div class="card"><div class="card-label">Écart global</div><div class="card-value" id="totalGap">0 kg</div><div class="card-note">Offres − Demandes</div></div>
+    <div class="card"><div class="card-label">Alertes actives</div><div class="card-value" id="alertCount">0</div><div class="card-note">Produits hors équilibre</div></div>
+  </section>
 
-        <div class="section-header">
-            <h2>Analyse de l'offre et de la demande</h2>
-
-            <input
-                type="text"
-                id="search"
-                class="search"
-                placeholder="Rechercher un produit..."
-                oninput="displayProducts()">
-        </div>
-
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Produit</th>
-                        <th>Offre (Kg)</th>
-                        <th>Demande (Kg)</th>
-                        <th>Écart (Kg)</th>
-                        <th>Situation</th>
-                    </tr>
-                </thead>
-
-                <tbody id="productTable"></tbody>
-            </table>
-        </div>
-
+  <section id="produits">
+    <div class="section-title"><h2>Analyse de l'offre et de la demande par produit</h2><button class="primary" onclick="openModal()">+ Ajouter un produit</button></div>
+    <div class="box">
+      <div class="toolbar">
+        <input class="search" id="search" placeholder="Rechercher un produit..." oninput="render()" aria-label="Rechercher un produit">
+        <select id="filter" onchange="render()" aria-label="Filtrer par situation">
+          <option value="all">Toutes les situations</option>
+          <option value="deficit">Déficit</option>
+          <option value="surplus">Surplus</option>
+          <option value="equilibre">Équilibre</option>
+        </select>
+      </div>
+      <div style="overflow-x:auto">
+        <table>
+          <thead><tr><th>Produit</th><th>Offre totale</th><th>Demande totale</th><th>Écart</th><th>Situation</th><th>Action</th></tr></thead>
+          <tbody id="productTable"></tbody>
+        </table>
+      </div>
+      <p class="muted" id="resultCount"></p>
     </div>
+  </section>
 
-    <!-- RECOMMANDATIONS -->
+  <div class="section-title" id="alertes"><h2>Alertes détectées</h2><span class="muted">Générées automatiquement</span></div>
+  <div class="box"><div id="alertList"></div></div>
 
-    <div class="section">
+  <div class="section-title" id="recommandations"><h2>Recommandations</h2><span class="muted">Aide à la décision</span></div>
+  <div class="box"><div id="recommendationList"></div></div>
 
-        <div class="section-header">
-            <h2>Recommandations de gestion</h2>
-            <span class="unit">Analyse automatique par produit</span>
-        </div>
-
-        <div class="recommendations" id="recommendations"></div>
-
-    </div>
-
+  <div class="footer">Freshk © 2026 : Projet Génie logiciel, Sprint 3</div>
+</main>
 </div>
 
-<footer>
-    Freshk © 2026 - Gestion intelligente de l'offre et de la demande
-</footer>
+<div class="modal" id="addModal">
+  <div class="modal-content">
+    <button class="close" onclick="closeModal()" aria-label="Fermer">✕</button>
+    <h3 id="modalTitle">Ajouter un produit</h3>
+    <label for="newName">Nom du produit</label>
+    <input id="newName" placeholder="Ex : Tomates">
+    <label for="newOffer">Offre totale (kg)</label>
+    <input id="newOffer" type="number" min="0" placeholder="Quantité offerte">
+    <label for="newDemand">Demande totale (kg)</label>
+    <input id="newDemand" type="number" min="0" placeholder="Quantité demandée">
+    <button class="primary" id="saveBtn" onclick="saveProduct()">Enregistrer le produit</button>
+  </div>
+</div>
 
 <script>
-
-// DONNEES DES PRODUITS (EXEMPLE)
-
-const products = [
-    {name: "Tomates", offer: 100, demand: 150},
-    {name: "Fraises", offer: 200, demand: 120},
-    {name: "Pommes", offer: 80, demand: 80},
-    {name: "Oranges", offer: 90, demand: 140},
-    {name: "Pommes de terre", offer: 250, demand: 180},
-    {name: "Carottes", offer: 110, demand: 100}
+var defaultProducts = [
+  {name:"Tomates", offer:500, demand:700},
+  {name:"Pommes de terre", offer:900, demand:600},
+  {name:"Carottes", offer:400, demand:400},
+  {name:"Oranges", offer:300, demand:500},
+  {name:"Poivrons", offer:750, demand:500}
 ];
+var products;
+try { products = JSON.parse(localStorage.getItem("freshkProducts")) || defaultProducts; }
+catch (e) { products = defaultProducts; }
 
-// CALCUL DE LA SITUATION
-
-function getSituation(product) {
-
-    const gap = product.offer - product.demand;
-
-    if (gap < 0) {
-        return "Déficit";
-    }
-
-    if (gap > 0) {
-        return "Excédent";
-    }
-
-    return "Équilibre";
+function saveProducts() {
+  try { localStorage.setItem("freshkProducts", JSON.stringify(products)); } catch (e) {}
 }
 
-// RECOMMANDATIONS AUTOMATIQUES
+// Situation : équilibre si offre = demande, déficit si offre < demande, surplus si offre > demande
+function situation(p) {
+  if (p.offer === p.demand) return "equilibre";
+  return p.offer < p.demand ? "deficit" : "surplus";
+}
+function labelOf(s) { return s === "deficit" ? "Déficit" : s === "surplus" ? "Surplus" : "Équilibre"; }
+function colorOf(g) { return g < 0 ? "red" : g > 0 ? "orange" : "green"; }
 
-function getRecommendation(product) {
+function render() {
+  var search = document.getElementById("search").value.toLowerCase();
+  var filter = document.getElementById("filter").value;
+  var totalOffer = 0, totalDemand = 0, alerts = 0;
 
-    const gap = product.offer - product.demand;
+  products.forEach(function (p) {
+    totalOffer += p.offer;
+    totalDemand += p.demand;
+    if (situation(p) !== "equilibre") alerts++;
+  });
+  var gap = totalOffer - totalDemand;
 
-    if (gap < 0) {
-        return {
-            title: "⚠ " + product.name + " : Déficit",
-            message:
-            "La demande dépasse l'offre de " +
-            Math.abs(gap) +
-            " Kg. Recommandation : augmenter l'approvisionnement auprès des fournisseurs.",
-            class: "rec-deficit"
-        };
-    }
+  document.getElementById("totalOffer").textContent = totalOffer.toLocaleString("fr-FR") + " kg";
+  document.getElementById("totalDemand").textContent = totalDemand.toLocaleString("fr-FR") + " kg";
+  var ge = document.getElementById("totalGap");
+  ge.textContent = (gap > 0 ? "+" : "") + gap.toLocaleString("fr-FR") + " kg";
+  ge.className = "card-value " + colorOf(gap);
+  var ac = document.getElementById("alertCount");
+  ac.textContent = alerts;
+  ac.className = "card-value " + (alerts > 0 ? "red" : "green");
 
-    if (gap > 0) {
-        return {
-            title: "⚡ " + product.name + " : Excédent",
-            message:
-            "L'offre dépasse la demande de " +
-            gap +
-            " Kg. Recommandation : réduire les prochaines commandes et surveiller le risque de gaspillage.",
-            class: "rec-surplus"
-        };
-    }
+  var filtered = products.filter(function (p) {
+    return p.name.toLowerCase().includes(search) && (filter === "all" || situation(p) === filter);
+  });
 
-    return {
-        title: "✓ " + product.name + " : Équilibre",
-        message:
-        "L'offre correspond à la demande. Recommandation : maintenir le niveau actuel d'approvisionnement.",
-        class: "rec-balance"
-    };
+  document.getElementById("productTable").innerHTML = filtered.map(function (p) {
+    var g = p.offer - p.demand, s = situation(p);
+    return "<tr><td class='product'>" + p.name + "</td>" +
+      "<td>" + p.offer.toLocaleString("fr-FR") + " kg</td>" +
+      "<td>" + p.demand.toLocaleString("fr-FR") + " kg</td>" +
+      "<td class='" + colorOf(g) + "'>" + (g > 0 ? "+" : "") + g + " kg</td>" +
+      "<td><span class='badge " + s + "'>" + labelOf(s) + "</span></td>" +
+      "<td><button class='secondary' onclick='editProduct(" + products.indexOf(p) + ")'>Modifier</button></td></tr>";
+  }).join("");
+  document.getElementById("resultCount").textContent = filtered.length + " produit(s) affiché(s)";
+
+  renderAlerts();
+  renderRecommendations();
 }
 
-// AFFICHAGE DES INDICATEURS
-
-function updateStats() {
-
-    const totalOffer = products.reduce(
-        (sum, p) => sum + p.offer, 0
-    );
-
-    const totalDemand = products.reduce(
-        (sum, p) => sum + p.demand, 0
-    );
-
-    const gap = totalOffer - totalDemand;
-
-    const deficits = products.filter(
-        p => getSituation(p) === "Déficit"
-    ).length;
-
-    document.getElementById("totalOffer").textContent =
-        totalOffer.toLocaleString("fr-FR");
-
-    document.getElementById("totalDemand").textContent =
-        totalDemand.toLocaleString("fr-FR");
-
-    document.getElementById("totalGap").textContent =
-        (gap > 0 ? "+" : "") + gap.toLocaleString("fr-FR");
-
-    document.getElementById("deficitCount").textContent =
-        deficits;
+function groupBySituation() {
+  var g = {deficit: [], surplus: [], equilibre: []};
+  products.forEach(function (p) { g[situation(p)].push(p); });
+  return g;
 }
 
-// AFFICHAGE DU TABLEAU
-
-function displayProducts() {
-
-    const search = document.getElementById("search")
-        .value.toLowerCase();
-
-    const filtered = products.filter(p =>
-        p.name.toLowerCase().includes(search)
-    );
-
-    const table = document.getElementById("productTable");
-
-    table.innerHTML = "";
-
-    filtered.forEach(product => {
-
-        const gap = product.offer - product.demand;
-        const situation = getSituation(product);
-
-        let className = "balance";
-
-        if (situation === "Déficit") {
-            className = "deficit";
-        } else if (situation === "Excédent") {
-            className = "surplus";
-        }
-
-        table.innerHTML += `
-            <tr>
-                <td class="product">${product.name}</td>
-                <td>${product.offer}</td>
-                <td>${product.demand}</td>
-                <td>${gap > 0 ? "+" : ""}${gap}</td>
-                <td>
-                    <span class="status ${className}">
-                        ${situation}
-                    </span>
-                </td>
-            </tr>
-        `;
-    });
-
-    if (filtered.length === 0) {
-        table.innerHTML = `
-            <tr>
-                <td colspan="5">Aucun produit trouvé.</td>
-            </tr>
-        `;
-    }
+function listeProduits(arr, avecKg) {
+  return arr.map(function (p) {
+    var ecart = Math.abs(p.offer - p.demand);
+    return avecKg ? "<li><strong>" + p.name + "</strong> : " + ecart + " kg</li>" : "<li><strong>" + p.name + "</strong></li>";
+  }).join("");
 }
 
-// AFFICHAGE DES RECOMMANDATIONS
-
-function displayRecommendations() {
-
-    const container =
-        document.getElementById("recommendations");
-
-    container.innerHTML = "";
-
-    products.forEach(product => {
-
-        const rec = getRecommendation(product);
-
-        container.innerHTML += `
-            <div class="recommendation ${rec.class}">
-                <h3>${rec.title}</h3>
-                <p>${rec.message}</p>
-            </div>
-        `;
-    });
+function renderAlerts() {
+  var g = groupBySituation(), html = "";
+  if (g.deficit.length) html += "<div class='alert-item deficit'><strong class='red'>Alerte déficit : " + g.deficit.length + " produit(s)</strong>La demande dépasse l'offre pour :<ul>" + listeProduits(g.deficit, true) + "</ul></div>";
+  if (g.surplus.length) html += "<div class='alert-item surplus'><strong class='orange'>Alerte surplus : " + g.surplus.length + " produit(s)</strong>L'offre dépasse la demande pour :<ul>" + listeProduits(g.surplus, true) + "</ul></div>";
+  if (g.equilibre.length) html += "<div class='alert-item equilibre'><strong class='green'>Équilibre : " + g.equilibre.length + " produit(s)</strong>L'offre est égale à la demande pour :<ul>" + listeProduits(g.equilibre, false) + "</ul></div>";
+  document.getElementById("alertList").innerHTML = html || "Aucune alerte détectée.";
 }
 
-// INITIALISATION
+function renderRecommendations() {
+  var g = groupBySituation(), html = "";
+  if (g.deficit.length) html += "<div class='recommendation'><strong>Produits en déficit</strong><br>Augmenter l'approvisionnement en cherchant des fournisseurs capables de couvrir le manque :<ul>" +
+    g.deficit.map(function (p) { return "<li><strong>" + p.name + "</strong> : +" + (p.demand - p.offer) + " kg à approvisionner</li>"; }).join("") + "</ul></div>";
+  if (g.surplus.length) html += "<div class='recommendation'><strong>Produits en surplus</strong><br>Réduire les prochaines quantités commandées et surveiller le risque de gaspillage :<ul>" +
+    g.surplus.map(function (p) { return "<li><strong>" + p.name + "</strong> : -" + (p.offer - p.demand) + " kg à commander en moins</li>"; }).join("") + "</ul></div>";
+  if (g.equilibre.length) html += "<div class='recommendation'><strong>Produits en équilibre</strong><br>Maintenir le niveau actuel d'approvisionnement et continuer le suivi :<ul>" + listeProduits(g.equilibre, false) + "</ul></div>";
+  document.getElementById("recommendationList").innerHTML = html || "Aucune recommandation.";
+}
 
-updateStats();
-displayProducts();
-displayRecommendations();
+var editIndex = null;
 
+function openModal() {
+  editIndex = null;
+  document.getElementById("modalTitle").textContent = "Ajouter un produit";
+  document.getElementById("saveBtn").textContent = "Enregistrer le produit";
+  ["newName", "newOffer", "newDemand"].forEach(function (id) { document.getElementById(id).value = ""; });
+  document.getElementById("addModal").style.display = "flex";
+}
+
+function editProduct(i) {
+  editIndex = i;
+  var p = products[i];
+  document.getElementById("modalTitle").textContent = "Modifier le produit";
+  document.getElementById("saveBtn").textContent = "Mettre à jour";
+  document.getElementById("newName").value = p.name;
+  document.getElementById("newOffer").value = p.offer;
+  document.getElementById("newDemand").value = p.demand;
+  document.getElementById("addModal").style.display = "flex";
+}
+
+function closeModal() { document.getElementById("addModal").style.display = "none"; }
+
+function saveProduct() {
+  var name = document.getElementById("newName").value.trim();
+  var ov = document.getElementById("newOffer").value;
+  var dv = document.getElementById("newDemand").value;
+  var offer = Number(ov), demand = Number(dv);
+  if (!name || ov === "" || dv === "" || offer < 0 || demand < 0) {
+    alert("Veuillez saisir un nom et des quantités valides.");
+    return;
+  }
+  var existe = products.some(function (p, k) { return k !== editIndex && p.name.toLowerCase() === name.toLowerCase(); });
+  if (existe) {
+    alert("Ce produit existe déjà.");
+    return;
+  }
+  if (editIndex === null) products.push({name: name, offer: offer, demand: demand});
+  else products[editIndex] = {name: name, offer: offer, demand: demand};
+  saveProducts();
+  closeModal();
+  refreshDashboard();
+}
+
+function refreshDashboard() {
+  render();
+  document.getElementById("lastUpdate").textContent = "Dernière actualisation : " + new Date().toLocaleTimeString("fr-FR");
+}
+
+// Menu : met en évidence le lien cliqué
+document.querySelectorAll(".sidebar .nav a[href^='#']").forEach(function (a) {
+  a.addEventListener("click", function () {
+    if (a.getAttribute("onclick")) return;
+    document.querySelectorAll(".sidebar .nav a").forEach(function (x) { x.classList.remove("active"); });
+    a.classList.add("active");
+  });
+});
+
+refreshDashboard();
+setInterval(refreshDashboard, 30000);
 </script>
-
 </body>
 </html>
