@@ -1,13 +1,61 @@
-<h1 style="color:green">Nature de l’écart</h1>
-<table id="t" border="1" style="border-collapse:collapse">
-<tr><th>Produit<th>Offre<th>Demande<th>Écart<th>Nature<th>Explication</tr>
-</table>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>FT-21 Nature de l’écart</title>
+</head>
+<body style="text-align:center; font-family:Arial">
 
-<script>
-for (let [n, o, d] of [["Tomates", 200, 270], ["Pommes de terre", 1000, 100], ["Oranges", 400, 400]]) {
-  let e = o - d, nat = e < 0 ? "Déficit" : e > 0 ? "Surplus" : "Équilibre";
-  let c = e < 0 ? "#fdd" : e > 0 ? "#fe9" : "#cfc";
-  let p = e < 0 ? "Demande > Stock" : e > 0 ? "Stock > Demande" : "Stock = Demande";
-  t.innerHTML += `<tr><td>${n}<td>${o}<td>${d}<td>${e}<td style="background:${c}"><b>${nat}</b><td>${p}`;
-}
-</script>
+  <h1 style="color:green">Nature de l’écart offre/demande</h1>
+
+  <table id="tableau" border="1" cellpadding="10" style="margin:auto; border-collapse:collapse">
+    <tr style="background:green; color:white">
+      <th>Produit</th><th>Offre</th><th>Demande</th><th>Écart</th><th>Nature</th><th>Explication</th>
+    </tr>
+  </table>
+
+  <script>
+    // 1. La liste des produits, avec leur offre (stock) et leur demande (commandes)
+    var produits = [
+      { nom: "Tomates", offre: 200, demande: 270 },
+      { nom: "Pommes de terre", offre: 1000, demande: 100 },
+      { nom: "Oranges", offre: 400, demande: 400 }
+    ];
+
+    var tableau = document.getElementById("tableau");
+
+    // 2. Pour chaque produit : on calcule l'écart, puis on ajoute une ligne au tableau
+    for (var i = 0; i < produits.length; i++) {
+      var p = produits[i];
+      var ecart = p.offre - p.demande;
+      var nature = "";
+      var phrase = "";
+      var couleur = "";
+
+      if (ecart < 0) {
+        nature = "Déficit";
+        phrase = "Les clients veulent plus que le stock disponible.";
+        couleur = "#fdd";
+      } else if (ecart > 0) {
+        nature = "Surplus";
+        phrase = "Il y a plus de stock que ce que les clients demandent.";
+        couleur = "#fe9";
+      } else {
+        nature = "Équilibre";
+        phrase = "Le stock correspond exactement à la demande.";
+        couleur = "#cfc";
+      }
+
+      tableau.innerHTML += "<tr>" +
+        "<td>" + p.nom + "</td>" +
+        "<td>" + p.offre + "</td>" +
+        "<td>" + p.demande + "</td>" +
+        "<td>" + ecart + "</td>" +
+        "<td style='background:" + couleur + "'><b>" + nature + "</b></td>" +
+        "<td>" + phrase + "</td>" +
+        "</tr>";
+    }
+  </script>
+
+</body>
+</html>
