@@ -1,38 +1,17 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<title>FT-21 Nature de l’écart</title>
-<style>
-  body { font-family: Arial, sans-serif; margin: 40px; color: #11261a; }
-  table { border-collapse: collapse; }
-  th, td { border: 1px solid #11261a; padding: 10px 18px; text-align: left; }
-  th { background: #1f7a45; color: #fff; }
-  h1 { color: #1f7a45; }
-  .rouge { background: #fde8e8; color: #8a1111; font-weight: bold; }
-  .orange { background: #fff1d6; color: #7a4300; font-weight: bold; }
-  .vert { background: #e4f3e8; color: #0f5a2b; font-weight: bold; }
-</style>
-</head>
-<body>
-<h1>Nature de l’écart offre/demande</h1>
-<table>
-  <thead><tr><th>Produit</th><th>Offre (kg)</th><th>Demande (kg)</th><th>Écart (kg)</th><th>Nature de l’écart</th></tr></thead>
-  <tbody id="corps"></tbody>
-</table>
-<script>
-function natureEcart(offre, demande) {
-  const ecart = offre - demande;
-  if (ecart < 0) return { nature: "Déficit", classe: "rouge" };
-  if (ecart > 0) return { nature: "Surplus", classe: "orange" };
-  return { nature: "Équilibre", classe: "vert" };
-}
-const produits = [["Tomates", 200, 270], ["Pommes de terre", 1000, 100], ["Oranges", 400, 400]];
-produits.forEach(([nom, offre, demande]) => {
-  const r = natureEcart(offre, demande);
-  document.getElementById("corps").innerHTML +=
-    `<tr><td>${nom}</td><td>${offre}</td><td>${demande}</td><td>${offre - demande}</td><td class="${r.classe}">${r.nature}</td></tr>`;
-});
-</script>
-</body>
-</html>
+produits = [
+    {"nom": "Tomates", "offre": 200, "demande": 270},
+    {"nom": "Pommes de terre", "offre": 1000, "demande": 100},
+    {"nom": "Oranges", "offre": 400, "demande": 400},
+]
+
+for p in produits:
+    ecart = p["offre"] - p["demande"]          # écart offre - demande
+    if ecart > 0:                               # offre > demande
+        print(f"ALERTE {p['nom']} : offre supérieure à la demande (+{ecart} kg)")
+        print("  -> Baisser le prix ou lancer une promotion, réduire le prochain stock")
+    elif ecart < 0:                             # demande > offre
+        print(f"ALERTE {p['nom']} : demande supérieure à l'offre ({ecart} kg)")
+        print("  -> Augmenter le stock (réapprovisionner) et/ou augmenter le prix")
+    else:
+        print(f"OK {p['nom']} : marché équilibré, aucune action")
+      
