@@ -1,17 +1,10 @@
-produits = [
-    {"nom": "Tomates", "offre": 200, "demande": 270},
-    {"nom": "Pommes de terre", "offre": 1000, "demande": 100},
-    {"nom": "Oranges", "offre": 400, "demande": 400},
-]
-
-for p in produits:
-    ecart = p["offre"] - p["demande"]          # écart offre - demande
-    if ecart > 0:                               # offre > demande
-        print(f"ALERTE {p['nom']} : offre supérieure à la demande (+{ecart} kg)")
-        print("  -> Baisser le prix ou lancer une promotion, réduire le prochain stock")
-    elif ecart < 0:                             # demande > offre
-        print(f"ALERTE {p['nom']} : demande supérieure à l'offre ({ecart} kg)")
-        print("  -> Augmenter le stock (réapprovisionner) et/ou augmenter le prix")
-    else:
-        print(f"OK {p['nom']} : marché équilibré, aucune action")
-      
+<meta charset="UTF-8"><title>FT-21 Nature de l’écart</title>
+<body style="text-align:center;font-family:Arial">
+<h1 style="color:green">Nature de l’écart offre/demande</h1>
+<table id="t" border="1" cellpadding="10" style="margin:auto;border-collapse:collapse">
+<tr style="background:green;color:white"><th>Produit<th>Offre<th>Demande<th>Écart<th>Nature</tr></table>
+<script>
+for (const [nom, o, d] of [["Tomates", 200, 270], ["Pommes de terre", 1000, 100], ["Oranges", 400, 400]]) {
+  const e = o - d, [nature, couleur] = e < 0 ? ["Déficit", "#fdd"] : e > 0 ? ["Surplus", "#fe9"] : ["Équilibre", "#cfc"];
+  t.innerHTML += `<tr><td>${nom}<td>${o}<td>${d}<td>${e}<td style="background:${couleur}"><b>${nature}</b>`;
+}</script>
